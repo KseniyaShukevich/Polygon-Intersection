@@ -13,22 +13,22 @@ function chooseDragElem(potentialMove) {
     return dragElem;
 }
 
-function getArrCoords(obj) {
-    const xCoords = obj.coords.map(elem => {
+function getArrCoords(polygon) {
+    const xCoords = polygon.coords.map(elem => {
         return elem[0];
     });
-    const yCoords = obj.coords.map(elem => {
+    const yCoords = polygon.coords.map(elem => {
         return elem[1];
     });
     return [xCoords, yCoords];
 }
-
+  
 export default function mousedown(e) {
     const x = e.pageX - e.target.offsetLeft;
     const y = e.pageY - e.target.offsetTop;
-    const potentialMove = arrObjPolygons.filter((obj) => {
-        const [xCoords, yCoords] = getArrCoords(obj);
-        return inPolygon(x, y, xCoords, yCoords);
+    const potentialMove = arrObjPolygons.filter((polygon) => {
+        const [xCoords, yCoords] = getArrCoords(polygon);
+        return inPolygon(x, y, polygon);
     });
 
    if (potentialMove.length) {
