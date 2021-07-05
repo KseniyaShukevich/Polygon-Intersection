@@ -1,5 +1,6 @@
 import canvasClass from './CanvasClass';
 import isIntersection from './isIntersection';
+import Line from './Line';
 
 let priority = 0;
 
@@ -21,8 +22,8 @@ function isCrossedLines(draggingPolygon, nextDraggingIndex, draggingPoint, polyg
         if (!polygon.coordinates[nextIndexCoordinates]) {
             return;
         }
-        const draggingLine = [draggingPoint, draggingPolygon.coordinates[nextDraggingIndex]];
-        const polygonLine = [point, polygon.coordinates[nextIndexCoordinates]];
+        const draggingLine = new Line(draggingPoint, draggingPolygon.coordinates[nextDraggingIndex]);
+        const polygonLine = new Line(point, polygon.coordinates[nextIndexCoordinates]);
         if (isIntersection(draggingLine, polygonLine)) {
             isCrossed = true;
             return;

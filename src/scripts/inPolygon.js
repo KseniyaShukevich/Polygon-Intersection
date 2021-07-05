@@ -1,5 +1,6 @@
 import isIntersection from './isIntersection';
 import Point from './Point';
+import Line from './Line';
 
 export default function inPolygon(mousePoint, polygon) {
     const xCoordinates = polygon.coordinates.map((point) => point.x);
@@ -11,8 +12,8 @@ export default function inPolygon(mousePoint, polygon) {
             return;
         }
      
-        const polygonLine = [point, polygon.coordinates[nextIndex]];
-        const testLine = [mousePoint, new Point(maxX + 1, mousePoint.z)];
+        const polygonLine = new Line(point, polygon.coordinates[nextIndex]);
+        const testLine = new Line(mousePoint, new Point(maxX + 1, mousePoint.z));
         if (isIntersection(polygonLine, testLine)) {
             countCrossed += 1;
         }
