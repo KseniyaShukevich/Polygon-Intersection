@@ -1,10 +1,12 @@
 import canvasClass from './CanvasClass';
 import isIntersection from './isIntersection';
 import Line from './Line';
+import Polygon from './Polygon';
+import Point from './Point';
 
 let priority = 0;
 
-function crossLines(draggingPolygon, polygon) {
+function crossLines(draggingPolygon: Polygon, polygon: Polygon): void {
     if (!draggingPolygon.arrIntersections.includes(polygon.id)) {
         draggingPolygon.arrIntersections.push(polygon.id);
     }
@@ -14,16 +16,16 @@ function crossLines(draggingPolygon, polygon) {
     }
 }
 
-function isCrossedLines(draggingPolygon, nextDraggingIndex, draggingPoint, polygon) {
-    let isCrossed = false;
+function isCrossedLines(draggingPolygon: Polygon, nextDraggingIndex: number, draggingPoint: Point, polygon: Polygon): boolean {
+    let isCrossed: boolean = false;
 
     polygon.coordinates.forEach((point, index) => {
-        let nextIndexCoordinates = index + 1;
+        let nextIndexCoordinates: number = index + 1;
         if (!polygon.coordinates[nextIndexCoordinates]) {
             return;
         }
-        const draggingLine = new Line(draggingPoint, draggingPolygon.coordinates[nextDraggingIndex]);
-        const polygonLine = new Line(point, polygon.coordinates[nextIndexCoordinates]);
+        const draggingLine: Line = new Line(draggingPoint, draggingPolygon.coordinates[nextDraggingIndex]);
+        const polygonLine: Line = new Line(point, polygon.coordinates[nextIndexCoordinates]);
         if (isIntersection(draggingLine, polygonLine)) {
             isCrossed = true;
             return;
@@ -33,14 +35,14 @@ function isCrossedLines(draggingPolygon, nextDraggingIndex, draggingPoint, polyg
     return isCrossed;
 }
 
-function deleteConnection(draggingPolygon, polygon){
+function deleteConnection(draggingPolygon: Polygon, polygon: Polygon){
     if (draggingPolygon.arrIntersections.includes(polygon.id)) {
         draggingPolygon.arrIntersections.splice(draggingPolygon.arrIntersections.indexOf(polygon.id), 1);
         polygon.arrIntersections.splice(polygon.arrIntersections.indexOf(draggingPolygon.id), 1);
     }
 };
 
-function mapPolygon(draggingPolygon, polygon, draggingPoint, nextDraggingIndex, arrIntersections ) {
+function mapPolygon(draggingPolygon: Polygon, polygon: Polygon, draggingPoint: Point, nextDraggingIndex: number, arrIntersections: Array<number | never>): void {
     if ((draggingPolygon.id !== polygon.id) && !arrIntersections.includes(polygon.id)) {
         let isCrossed = false;
         isCrossed = isCrossedLines(draggingPolygon, nextDraggingIndex, draggingPoint, polygon);
@@ -53,8 +55,8 @@ function mapPolygon(draggingPolygon, polygon, draggingPoint, nextDraggingIndex, 
     }
 }
 
-function mapDraggingCoordinates(draggingPolygon, polygons) {
-    const arrIntersections = [];
+function mapDraggingCoordinates(draggingPolygon: Polygon, polygons: Array<Polygon>) {
+    const arrIntersections: Array<number | never> = [];
     draggingPolygon.coordinates.forEach((draggingPoint, index) => {
         let nextDraggingIndex = index + 1;
         if (!draggingPolygon.coordinates[nextDraggingIndex]) {
@@ -66,7 +68,7 @@ function mapDraggingCoordinates(draggingPolygon, polygons) {
     })
 }
 
-export default function mouseup() {
+export default function mouseup(): void {
     const draggingPolygon = canvasClass.polygons.find((polygon) => polygon.isDragging);
     if (draggingPolygon) {
         draggingPolygon.isDragging = false;

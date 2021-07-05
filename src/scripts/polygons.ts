@@ -66,7 +66,7 @@ const polygon10 = [
     new Point(60, 15),
 ]
 
-const polygons = [
+const polygons: Array<Array<Point>> = [
     polygon1,
     polygon2,
     polygon3,
@@ -79,7 +79,7 @@ const polygons = [
     polygon10
 ]
 
-const arrObjPolygons = polygons.map((polygon, index) => {
+const arrObjPolygons: Array<Polygon> = polygons.map((polygon, index) => {
     return new Polygon(polygon, index);
 })
 

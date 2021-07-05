@@ -1,8 +1,9 @@
 import canvasClass from './CanvasClass';
 import inPolygon from './inPolygon';
 import Point from './Point';
+import Polygon from './Polygon';
 
-function chooseDraggingElement(potentialDraggingPolygons) {
+function chooseDraggingElement(potentialDraggingPolygons: Array<Polygon>): Polygon {
     let draggingPolygon = potentialDraggingPolygons[0];
 
     potentialDraggingPolygons.forEach((polygon) => {
@@ -14,7 +15,7 @@ function chooseDraggingElement(potentialDraggingPolygons) {
     return draggingPolygon;
 }
   
-export default function mousedown(e) {
+export default function mousedown(e: any): void {
     const currentMouseX = e.pageX - e.target.offsetLeft;
     const currentMouseZ = e.pageY - e.target.offsetTop;
     const potentialDraggingPolygons = canvasClass.polygons.filter((polygon) => {

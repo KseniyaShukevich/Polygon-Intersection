@@ -5,7 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
     entry: {
-        main: path.resolve(__dirname, './src/index.js'),
+        main: path.resolve(__dirname, './src/index.ts'),
     },
     output: {
         path: path.resolve(__dirname, './dist'),
@@ -39,7 +39,15 @@ module.exports = {
                 test: /\.css$/i,
                 use: ["style-loader", "css-loader"],
             },
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
         
         ],
-    }
+    },
+    resolve: {
+        extensions: ['.ts', '.js'],
+    },
 }

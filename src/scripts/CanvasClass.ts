@@ -1,10 +1,15 @@
 import polygons from './polygons';
 import calcPosition from './calcPosition';
+import Polygon from './Polygon';
+import Point from './Point';
+import { canvas } from './canvas';
 
 let funcCalcPosition = calcPosition();
 
 class Canvas {
-    constructor(polygons) {
+    polygons: Array<Polygon>;
+
+    constructor(polygons: Array<Polygon>) {
         this.polygons = polygons;
     }
 
@@ -14,7 +19,7 @@ class Canvas {
         })
     }
 
-    _drawLines(polygon) {
+    _drawLines(polygon: Polygon) {
         for (let i = 0; i < polygon.coordinates.length; i++) {
             if (i == 0) {
                 polygon.ctx.moveTo(polygon.coordinates[i].x, polygon.coordinates[i].z)
@@ -46,7 +51,7 @@ class Canvas {
         });
     }
 
-    move(point, draggingPolygon) {
+    move(point: Point, draggingPolygon: Polygon) {
         draggingPolygon.position = {
             x: draggingPolygon.position.x + point.x, 
             z: draggingPolygon.position.z + point.z
@@ -54,7 +59,7 @@ class Canvas {
         this.draw();
     }
 
-    initDraw(calcPosition) {
+    initDraw(calcPosition: any) {
         this.polygons.forEach((polygon) => {
             const [position, func] = calcPosition(polygon.coordinates);
             polygon.position = position;
