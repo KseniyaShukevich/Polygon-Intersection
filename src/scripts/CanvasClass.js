@@ -37,7 +37,7 @@ class Canvas {
 
             this._drawLines(polygon);
 
-            if (polygon.isCrossed) {
+            if (polygon.arrIntersections.length) {
                 polygon.ctx.fillStyle = 'red';
                 polygon.ctx.fill(); 
             }

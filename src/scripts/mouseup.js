@@ -5,11 +5,9 @@ import general from './general';
 function crossLines(draggingPolygon, polygon) {
     if (!draggingPolygon.arrIntersections.includes(polygon.id)) {
         draggingPolygon.arrIntersections.push(polygon.id);
-        draggingPolygon.isCrossed = true;
     }
     if (!polygon.arrIntersections.includes(draggingPolygon.id)) {
         polygon.arrIntersections.push(draggingPolygon.id);
-        polygon.isCrossed = true;
         general.priority += 1;
         draggingPolygon.priority = general.priority;
     }
@@ -34,26 +32,12 @@ function isCrossedLines(draggingPolygon, nextDraggingIndex, draggingPoint, polyg
     return isCrossed;
 }
 
-function checkAndDeleteConnection(draggingPolygon, polygon){
+function deleteConnection(draggingPolygon, polygon){
     if (draggingPolygon.arrIntersections.includes(polygon.id)) {
         draggingPolygon.arrIntersections.splice(draggingPolygon.arrIntersections.indexOf(polygon.id), 1);
         polygon.arrIntersections.splice(polygon.arrIntersections.indexOf(draggingPolygon.id), 1);
     }
 };
-
-function checkAndChangeCrossLine(draggingPolygon, polygon) {
-    if (!draggingPolygon.arrIntersections.length) {
-        draggingPolygon.isCrossed = false;
-    }
-    if (!polygon.arrIntersections.length) {
-        polygon.isCrossed = false;
-    }
-}
-
-function changeProperties(draggingPolygon, polygon) {
-    checkAndDeleteConnection(draggingPolygon, polygon);
-    checkAndChangeCrossLine(draggingPolygon, polygon);
-}
 
 function mapPolygon(draggingPolygon, polygon, draggingPoint, nextDraggingIndex, arrIntersections ) {
     if ((draggingPolygon.id !== polygon.id) && !arrIntersections.includes(polygon.id)) {
@@ -63,7 +47,7 @@ function mapPolygon(draggingPolygon, polygon, draggingPoint, nextDraggingIndex, 
             crossLines(draggingPolygon, polygon);
             arrIntersections.push(polygon.id);
         } else {
-            changeProperties(draggingPolygon, polygon);
+            deleteConnection(draggingPolygon, polygon);
         }
     }
 }

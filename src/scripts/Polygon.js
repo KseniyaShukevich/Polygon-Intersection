@@ -6,7 +6,6 @@ export default class Polygon {
         this.coordinates = [[0, 0], ...arr, [0, 0]];
         this.ctx = canvas.getContext('2d');
         this.priority = 0;
-        this.isCrossed = false;
         this.isDragging = false;
         this.arrIntersections = [];
         this._position = [0, 0];
