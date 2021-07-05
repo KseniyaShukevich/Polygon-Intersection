@@ -1,4 +1,4 @@
-import Polygon from "./Polygon"
+import Polygon from './Polygon';
 
 const polygon1 = [
     [20, 20],

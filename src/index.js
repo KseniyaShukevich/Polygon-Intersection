@@ -1,2 +1,3 @@
 import './styles/index.css';
-import './scripts/drawPolygons';
+import './scripts/CanvasClass';
+import './scripts/canvas';

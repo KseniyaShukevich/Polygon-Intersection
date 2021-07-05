@@ -18,7 +18,6 @@ export default function calcPosition() {
     return function nextPosition(polygonCoordinates) {
         position[0] += newPosition[0];
         position[1] += newPosition[1];
-
         const maxY = calcMaxY(polygonCoordinates);
         newPosition = [0, maxY + indentation];
 

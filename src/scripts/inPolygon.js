@@ -9,7 +9,7 @@ export default function inPolygon(x, y, polygon) {
         if (!polygon.coordinates[nextIndex]) {
             return;
         }
-      
+     
         const polygonLine = [point, polygon.coordinates[nextIndex]];
         const testLine = [[x, y], [maxX + 1, y]];
         if (isIntersection(polygonLine, testLine)) {

@@ -1,4 +1,4 @@
-import polygons from './polygons';
+import canvasClass from './CanvasClass';
 import inPolygon from './inPolygon';
 
 function chooseDraggingElement(potentialDraggingPolygons) {
@@ -16,7 +16,7 @@ function chooseDraggingElement(potentialDraggingPolygons) {
 export default function mousedown(e) {
     const currentMouseX = e.pageX - e.target.offsetLeft;
     const currentMouseY = e.pageY - e.target.offsetTop;
-    const potentialDraggingPolygons = polygons.filter((polygon) => {
+    const potentialDraggingPolygons = canvasClass.polygons.filter((polygon) => {
         return inPolygon(currentMouseX, currentMouseY, polygon);
     });
 
