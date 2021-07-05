@@ -17,9 +17,9 @@ class Canvas {
     _drawLines(polygon) {
         for (let i = 0; i < polygon.coordinates.length; i++) {
             if (i == 0) {
-                polygon.ctx.moveTo(polygon.coordinates[i][0], polygon.coordinates[i][1])
+                polygon.ctx.moveTo(polygon.coordinates[i].x, polygon.coordinates[i].z)
             } else {
-                polygon.ctx.lineTo(polygon.coordinates[i][0], polygon.coordinates[i][1])
+                polygon.ctx.lineTo(polygon.coordinates[i].x, polygon.coordinates[i].z)
             }; 
         }
     }
@@ -46,11 +46,11 @@ class Canvas {
         });
     }
 
-    move(distanceX, distanceY, draggingPolygon) {
-        draggingPolygon.position = [
-            draggingPolygon.position[0] + distanceX, 
-            draggingPolygon.position[1] + distanceY
-        ];
+    move(point, draggingPolygon) {
+        draggingPolygon.position = {
+            x: draggingPolygon.position.x + point.x, 
+            z: draggingPolygon.position.z + point.z
+        };
         this.draw();
     }
 

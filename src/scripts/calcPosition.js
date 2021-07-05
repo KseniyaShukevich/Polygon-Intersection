@@ -1,26 +1,31 @@
-function calcMaxY(polygonCoordinates) {
-    let maxY = polygonCoordinates[0][1];
+import Point from './Point';
+
+function calcMaxZ(polygonCoordinates) {
+    let maxZ = polygonCoordinates[0].z;
 
     for (let i = 1; i < polygonCoordinates.length; i++) {
-        if (maxY < polygonCoordinates[i][1]) {
-            maxY = polygonCoordinates[i][1];
+        if (maxZ < polygonCoordinates[i].z) {
+            maxZ = polygonCoordinates[i].z;
         }
     }
 
-    return maxY;
+    return maxZ;
 }
 
 export default function calcPosition() {
     const indentation = 10;
-    let position = [indentation , indentation ];
-    let newPosition = [0, 0];
+    let position = new Point(indentation, indentation);
+    let newPosition = new Point(0, 0);
 
-    return function nextPosition(polygonCoordinates) {
-        position[0] += newPosition[0];
-        position[1] += newPosition[1];
-        const maxY = calcMaxY(polygonCoordinates);
-        newPosition = [0, maxY + indentation];
+    return function calcNextPosition(polygonCoordinates) {
+        position.x += newPosition.x;
+        position.z += newPosition.z;
+        const maxZ = calcMaxZ(polygonCoordinates);
+        newPosition = {
+            x: 0,
+            z: maxZ + indentation
+        }
 
-        return [[...position], nextPosition];
+        return [{...position}, calcNextPosition];
     }
 }

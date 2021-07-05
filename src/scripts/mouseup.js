@@ -1,6 +1,7 @@
 import canvasClass from './CanvasClass';
 import isIntersection from './isIntersection';
-import general from './general';
+
+let priority = 0;
 
 function crossLines(draggingPolygon, polygon) {
     if (!draggingPolygon.arrIntersections.includes(polygon.id)) {
@@ -8,8 +9,7 @@ function crossLines(draggingPolygon, polygon) {
     }
     if (!polygon.arrIntersections.includes(draggingPolygon.id)) {
         polygon.arrIntersections.push(draggingPolygon.id);
-        general.priority += 1;
-        draggingPolygon.priority = general.priority;
+        draggingPolygon.priority = ++priority;
     }
 }
 
@@ -66,7 +66,6 @@ function mapDraggingCoordinates(draggingPolygon, polygons) {
 }
 
 export default function mouseup() {
-    general.changeOldMousePosition(null, null);
     const draggingPolygon = canvasClass.polygons.find((polygon) => polygon.isDragging);
     if (draggingPolygon) {
         draggingPolygon.isDragging = false;
