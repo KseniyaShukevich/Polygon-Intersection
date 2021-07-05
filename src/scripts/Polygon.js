@@ -3,20 +3,20 @@ import { canvas } from './canvas';
 export default class Polygon {
     constructor(arr, id) {
         this.id = id;
-        this.coords = [[0, 0], ...arr, [0, 0]];
+        this.coordinates = [[0, 0], ...arr, [0, 0]];
         this.ctx = canvas.getContext('2d');
         this.priority = 0;
         this.isCrossLine = false;
-        this.isDrag = false;
+        this.isDragging = false;
         this.arrIntersections = [];
         this._position = [0, 0];
     }
 
     draw() {      
         this.ctx.beginPath();
-        for (let i = 0; i < this.coords.length; i++) {
-            if (i == 0) this.ctx.moveTo(this.coords[i][0], this.coords[i][1]) 
-                else this.ctx.lineTo(this.coords[i][0], this.coords[i][1]); 
+        for (let i = 0; i < this.coordinates.length; i++) {
+            if (i == 0) this.ctx.moveTo(this.coordinates[i][0], this.coordinates[i][1]) 
+                else this.ctx.lineTo(this.coordinates[i][0], this.coordinates[i][1]); 
         }
         if (this.isCrossLine) {
             this.ctx.fillStyle = 'red';
@@ -39,7 +39,7 @@ export default class Polygon {
 
     set position(newPosition) {
 
-        this.coords = this.coords.map((elem) => [
+        this.coordinates = this.coordinates.map((elem) => [
             elem[0] - this._position[0] + newPosition[0],
             elem[1] - this._position[1] + newPosition[1],
         ]);

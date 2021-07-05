@@ -3,7 +3,7 @@ const general = {
     oldMouseY: null,
     priority: 0,
     
-    changeOldMousePos(x, y) {
+    changeOldMousePosition(x, y) {
         this.oldMouseX = x;
         this.oldMouseY = y;
     }

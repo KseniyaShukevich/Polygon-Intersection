@@ -1,28 +1,31 @@
-import arrObjPolygons from './polygons';
+import polygons from './polygons';
 import isIntersection from './isIntersection';
 import general from './general';
 
-function crossLines(dragElem, obj) {
-    if (!dragElem.arrIntersections.includes(obj.id)) {
-        dragElem.arrIntersections.push(obj.id);
-        dragElem.isCrossLine = true;
+function crossLines(draggingPolygon, polygon) {
+    if (!draggingPolygon.arrIntersections.includes(polygon.id)) {
+        draggingPolygon.arrIntersections.push(polygon.id);
+        draggingPolygon.isCrossLine = true;
     }
-    if (!obj.arrIntersections.includes(dragElem.id)) {
-        obj.arrIntersections.push(dragElem.id);
-        obj.isCrossLine = true;
+    if (!polygon.arrIntersections.includes(draggingPolygon.id)) {
+        polygon.arrIntersections.push(draggingPolygon.id);
+        polygon.isCrossLine = true;
         general.priority += 1;
-        dragElem.priority = general.priority;
+        draggingPolygon.priority = general.priority;
     }
 }
 
-function isCrossedLines(dragElem, nextIndexElem, elem, obj) {
+function isCrossedLines(draggingPolygon, nextDraggingIndex, draggingPoint, polygon) {
     let isCrossed = false;
-    obj.coords.forEach((coord, indexCoords) => {
-        let nextIndexCoords = indexCoords + 1;
-        if (!obj.coords[nextIndexCoords]) {
+    polygon.coordinates.forEach((point, index) => {
+        let nextIndexCoordinates = index + 1;
+        if (!polygon.coordinates[nextIndexCoordinates]) {
             return;
         }
-        if (isIntersection([elem, dragElem.coords[nextIndexElem]], [coord, obj.coords[nextIndexCoords]])) {
+
+        const draggingLine = [draggingPoint, draggingPolygon.coordinates[nextDraggingIndex]];
+        const polygonLine = [point, polygon.coordinates[nextIndexCoordinates]];
+        if (isIntersection(draggingLine, polygonLine)) {
             isCrossed = true;
             return;
         }
@@ -31,38 +34,38 @@ function isCrossedLines(dragElem, nextIndexElem, elem, obj) {
     return isCrossed;
 }
 
-function checkAndDeleteConnection(dragElem, obj){
-    if (dragElem.arrIntersections.includes(obj.id)) {
-        dragElem.arrIntersections.splice(dragElem.arrIntersections.indexOf(obj.id), 1);
-        obj.arrIntersections.splice(obj.arrIntersections.indexOf(dragElem.id), 1);
+function checkAndDeleteConnection(draggingPolygon, polygon){
+    if (draggingPolygon.arrIntersections.includes(polygon.id)) {
+        draggingPolygon.arrIntersections.splice(draggingPolygon.arrIntersections.indexOf(polygon.id), 1);
+        polygon.arrIntersections.splice(polygon.arrIntersections.indexOf(draggingPolygon.id), 1);
     }
 };
 
-function checkAndChangeIsCrossLine(dragElem, obj) {
-    if (!dragElem.arrIntersections.length) {
-        dragElem.isCrossLine = false;
+function checkAndChangeCrossLine(draggingPolygon, polygon) {
+    if (!draggingPolygon.arrIntersections.length) {
+        draggingPolygon.isCrossLine = false;
     }
 
-    if (!obj.arrIntersections.length) {
-        obj.isCrossLine = false;
+    if (!polygon.arrIntersections.length) {
+        polygon.isCrossLine = false;
     }
 }
 
-function changeElemProps(dragElem, obj) {
-    checkAndDeleteConnection(dragElem, obj);
-    checkAndChangeIsCrossLine(dragElem, obj);
+function changeProperties(draggingPolygon, polygon) {
+    checkAndDeleteConnection(draggingPolygon, polygon);
+    checkAndChangeCrossLine(draggingPolygon, polygon);
 }
 
-function checkObjIsCrossed(dragElem, obj, elem, nextIndexElem, arrIntersections ) {
+function isCrossedPolygons(draggingPolygon, polygon, draggingPoint, nextDraggingIndex, arrIntersections ) {
     let isCrossed = false;
-    if ((dragElem.id !== obj.id) && !arrIntersections.includes(obj.id)) {
+    if ((draggingPolygon.id !== polygon.id) && !arrIntersections.includes(polygon.id)) {
         if (!isCrossed) {
-            isCrossed = isCrossedLines(dragElem, nextIndexElem, elem, obj);
+            isCrossed = isCrossedLines(draggingPolygon, nextDraggingIndex, draggingPoint, polygon);
             if (isCrossed) {
-                crossLines(dragElem, obj);
-                arrIntersections.push(obj.id);
+                crossLines(draggingPolygon, polygon);
+                arrIntersections.push(polygon.id);
             } else {
-                changeElemProps(dragElem, obj);
+                changeProperties(draggingPolygon, polygon);
             }
         }   
     }
@@ -70,30 +73,30 @@ function checkObjIsCrossed(dragElem, obj, elem, nextIndexElem, arrIntersections 
     return isCrossed;
 }
 
-function mapDragElemCoords(dragElem, arrObj) {
+function mapDraggingCoordinates(draggingPolygon, polygons) {
     const arrIntersections = [];
-    dragElem.coords.forEach((elem, indexElem) => {
-        let nextIndexElem = indexElem + 1;
-        if (!dragElem.coords[nextIndexElem]) {
+    draggingPolygon.coordinates.forEach((draggingPoint, index) => {
+        let nextDraggingIndex = index + 1;
+        if (!draggingPolygon.coordinates[nextDraggingIndex]) {
             return;
         }
-        arrObj.forEach((obj) => {
-            checkObjIsCrossed(dragElem, obj, elem, nextIndexElem, arrIntersections);
+        polygons.forEach((polygon) => {
+            isCrossedPolygons(draggingPolygon, polygon, draggingPoint, nextDraggingIndex, arrIntersections);
         });
     })
 }
 
 export default function mouseup() {
-    general.changeOldMousePos(null, null);
-    const dragElem = arrObjPolygons.find((elem) => elem.isDrag);
-    if (dragElem) {
-        dragElem.isDrag = false;
-        mapDragElemCoords(dragElem, arrObjPolygons);
-        dragElem.clear();
-        arrObjPolygons.sort((elem1, elem2) => {
-            return elem1.priority - elem2.priority;
-        }).forEach((elem) => {
-            elem.draw();
+    general.changeOldMousePosition(null, null);
+    const draggingPolygon = polygons.find((polygon) => polygon.isDragging);
+    if (draggingPolygon) {
+        draggingPolygon.isDragging = false;
+        mapDraggingCoordinates(draggingPolygon, polygons);
+        draggingPolygon.clear();
+        polygons.sort((polygon1, polygon2) => {
+            return polygon1.priority - polygon2.priority;
+        }).forEach((polygon) => {
+            polygon.draw();
         });
     }
 }

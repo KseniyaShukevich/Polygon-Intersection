@@ -1,11 +1,11 @@
-import arrObjPolygons from './polygons';
+import polygons from './polygons';
 import calcPosition from './calcPosition';
 
 let funcCalcPosition = calcPosition();
 
 function initDrawPolygons() {
-    arrObjPolygons.forEach((polygon) => {
-        const [position, func] = funcCalcPosition(polygon.coords);
+    polygons.forEach((polygon) => {
+        const [position, func] = funcCalcPosition(polygon.coordinates);
         polygon.position = position;
         polygon.draw();
         funcCalcPosition = func;
@@ -15,5 +15,5 @@ function initDrawPolygons() {
 initDrawPolygons();
 
 window.addEventListener('resize', () => {
-    arrObjPolygons.forEach((elem) => elem.draw());
+    polygons.forEach((polygon) => polygon.draw());
 });

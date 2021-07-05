@@ -1,22 +1,22 @@
-import arrObjPolygons from './polygons';
+import polygons from './polygons';
 import general from './general';
 
-function movePolygon(dragElem, x, y) {
+function movePolygon(draggingPolygon, currentMouseX, currentMouseY) {
     if (general.oldMouseX && general.oldMouseY) {
-        const distanceX = x - general.oldMouseX;
-        const distanceY = y - general.oldMouseY;
-        general.changeOldMousePos(x, y);
-        dragElem.move(distanceX, distanceY, arrObjPolygons);
+        const distanceX = currentMouseX - general.oldMouseX;
+        const distanceY = currentMouseY - general.oldMouseY;
+        general.changeOldMousePosition(currentMouseX, currentMouseY);
+        draggingPolygon.move(distanceX, distanceY, polygons);
     } else {
-        general.changeOldMousePos(x, y);
+        general.changeOldMousePosition(currentMouseX, currentMouseY);
     }
 }
 
 export default function mousemove(e) {
-    const dragElem = arrObjPolygons.find((elem) => elem.isDrag);
-    if (dragElem) {
-        const x = e.pageX - e.target.offsetLeft;
-        const y = e.pageY - e.target.offsetTop;
-        movePolygon(dragElem, x, y);
+    const draggingPolygon = polygons.find((polygon) => polygon.isDragging);
+    if (draggingPolygon) {
+        const currentMouseX = e.pageX - e.target.offsetLeft;
+        const currentMouseY = e.pageY - e.target.offsetTop;
+        movePolygon(draggingPolygon, currentMouseX, currentMouseY);
     }
 }
