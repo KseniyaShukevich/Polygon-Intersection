@@ -3,7 +3,11 @@ import Point from './Point';
 import Line from './Line';
 import Polygon from './Polygon';
 
-export default function inPolygon(mousePoint: Point, polygon: Polygon): boolean {
+export default function inPolygon(
+    mousePoint: Point, 
+    polygon: Polygon
+    ): boolean {
+        
     const xCoordinates: Array<number> = polygon.coordinates.map((point) => point.x);
     const maxX: number = Math.max(...xCoordinates);
     let countCrossed: number = 0;

@@ -13,13 +13,16 @@ class Canvas {
         this.polygons = polygons;
     }
 
-    _sort() {
+    _sort(): void {
         this.polygons.sort((polygon1, polygon2) => {
             return polygon1.priority - polygon2.priority;
         })
     }
 
-    _drawLines(polygon: Polygon) {
+    _drawLines(
+        polygon: Polygon
+        ): void {
+
         for (let i = 0; i < polygon.coordinates.length; i++) {
             if (i == 0) {
                 polygon.ctx.moveTo(polygon.coordinates[i].x, polygon.coordinates[i].z)
@@ -29,11 +32,11 @@ class Canvas {
         }
     }
 
-    clear() {
+    clear(): void {
         this.polygons[0].ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
-    draw() {
+    draw(): void {
         this.clear();
         this._sort();
 
@@ -51,15 +54,22 @@ class Canvas {
         });
     }
 
-    move(point: Point, draggingPolygon: Polygon) {
-        draggingPolygon.position = {
-            x: draggingPolygon.position.x + point.x, 
-            z: draggingPolygon.position.z + point.z
-        };
+    move(
+        point: Point, 
+        draggingPolygon: Polygon
+        ): void {
+
+        draggingPolygon.position = new Point(
+            draggingPolygon.position.x + point.x, 
+            draggingPolygon.position.z + point.z
+            );
         this.draw();
     }
 
-    initDraw(calcPosition: any) {
+    initDraw(
+        calcPosition: (value: Array<Point>) => Array<any>
+        ): void {
+            
         this.polygons.forEach((polygon) => {
             const [position, func] = calcPosition(polygon.coordinates);
             polygon.position = position;
@@ -70,7 +80,7 @@ class Canvas {
     }
 }
 
-const canvasClass = new Canvas(polygons);
+const canvasClass: Canvas = new Canvas(polygons);
 canvasClass.initDraw(funcCalcPosition);
 
 export default canvasClass;

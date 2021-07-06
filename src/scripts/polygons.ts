@@ -1,31 +1,31 @@
 import Polygon from './Polygon';
 import Point from './Point';
 
-const polygon1 = [
+const polygon1: Array<Point> = [
     new Point(20, 20),
     new Point(40, 0),
 ]
 
-const polygon2 = [
+const polygon2: Array<Point> = [
     new Point(20, 30),
     new Point(40, 30),
     new Point(40, 0),
 ]
 
-const polygon3 = [
+const polygon3: Array<Point> = [
     new Point(20, 20),
     new Point(50, 30),
     new Point(60, 15),
     new Point(40, 0),
 ]
 
-const polygon4 = [
+const polygon4: Array<Point> = [
     new Point(40, 20),
     new Point(20, 30),
     new Point(10, 10)
 ]
 
-const polygon5 = [
+const polygon5: Array<Point> = [
     new Point(60, 15),
     new Point(40, 0),
     new Point(40, 20),
@@ -33,14 +33,14 @@ const polygon5 = [
     new Point(10, 10)
 ]
 
-const polygon6 = [
+const polygon6: Array<Point> = [
     new Point(40, 30),
     new Point(40, 0),
     new Point(40, 0),
     new Point(40, 20),
 ]
 
-const polygon7 = [
+const polygon7: Array<Point> = [
     new Point(40, 0),
     new Point(40, 20),
     new Point(50, 30),
@@ -48,19 +48,19 @@ const polygon7 = [
     new Point(40, 0),
 ]
 
-const polygon8 = [
+const polygon8: Array<Point> = [
     new Point(40, 30),
     new Point(40, 0),
     new Point(60, 15),
 ]
 
-const polygon9 = [
+const polygon9: Array<Point> = [
     new Point(40, 0),
     new Point(40, 20),
     new Point(20, 30),
 ]
 
-const polygon10 = [
+const polygon10: Array<Point> = [
     new Point(20, 20),
     new Point(50, 30),
     new Point(60, 15),

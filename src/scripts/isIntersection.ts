@@ -1,14 +1,20 @@
 import Point from './Point';
 import Line from './Line';
 
-function calcCoefficients(line: Line): Array<number> {
+function calcCoefficients(
+  line: Line
+  ): Array<number> {
+    
   const xDifference: number = line.point2.x - line.point1.x;
   const k: number = (line.point2.z - line.point1.z) / xDifference;
   const b: number = line.point1.z - (line.point1.x * k);
   return [k, b];
 }
 
-function getMaxAndMinXZ(line: Line): Array<number> {
+function getMaxAndMinXZ(
+  line: Line
+  ): Array<number> {
+
   const maxX: number = Math.max(line.point1.x, line.point2.x);
   const minX: number = Math.min(line.point1.x, line.point2.x);
   const maxZ: number = Math.max(line.point1.z, line.point2.z);
@@ -16,7 +22,12 @@ function getMaxAndMinXZ(line: Line): Array<number> {
   return [maxX, minX, maxZ, minZ];
 }
 
-function checkPoint(line: Line, xCross: number, zCross: number): boolean {
+function checkPoint(
+  line: Line, 
+  xCross: number, 
+  zCross: number
+  ): boolean {
+
   const [maxX, minX, maxZ, minZ] = getMaxAndMinXZ(line);
 
   if ((xCross <= maxX) && (xCross >= minX) &&
@@ -27,7 +38,12 @@ function checkPoint(line: Line, xCross: number, zCross: number): boolean {
   return false;
 }
 
-function checkSuperimposition(line: Line, z1: number, z2: number): boolean {
+function checkSuperimposition(
+  line: Line, 
+  z1: number, 
+  z2: number
+  ): boolean {
+
     if (line.point1.z === z1 || line.point1.z === z2 || 
         line.point2.z === z1 || line.point2.z === z2) {
       return true;
@@ -36,14 +52,22 @@ function checkSuperimposition(line: Line, z1: number, z2: number): boolean {
     return false;
 }
 
-function calcPointCrossAlongOrdinates(lineAlongOrdinates: Line, line: Line): Array<number> {
+function calcPointCrossAlongOrdinates(
+  lineAlongOrdinates: Line, 
+  line: Line
+  ): Array<number> {
+
   const xCross: number = lineAlongOrdinates.point1.x;
   const [k, b] = calcCoefficients(line);
   const zCross: number = k * xCross + b;
   return [xCross, zCross];
 }
 
-function findMinZs(line1: Line, line2: Line): Array<number> {
+function findMinZs(
+  line1: Line, 
+  line2: Line
+  ): Array<number> {
+
   const allZ: Array<number> = [
     line1.point1.z, line1.point2.z, 
     line2.point1.z, line2.point2.z
@@ -54,7 +78,11 @@ function findMinZs(line1: Line, line2: Line): Array<number> {
   return [minZ1, minZ2];
 }
 
-function checkLinesAlongOrdinates(line1: Line, line2: Line): boolean {
+function checkLinesAlongOrdinates(
+  line1: Line, 
+  line2: Line
+  ): boolean {
+
   if (line1.point1.x !== line2.point1.x) {
     return false;
   }
@@ -68,14 +96,26 @@ function checkLinesAlongOrdinates(line1: Line, line2: Line): boolean {
   return false;
 }
 
-function calcPointCrossLines(line1: Line, line2: Line, k1: number, k2: number, b1: number): Array<number> {
+function calcPointCrossLines(
+  line1: Line, 
+  line2: Line, 
+  k1: number, 
+  k2: number, 
+  b1: number
+  ): Array<number> {
+
   const kDifference: number = k1 - k2;
-  const xCross: number = (line2.point1.z - line2.point1.x * k2 - line1.point1.z + line1.point1.x * k1) / kDifference;
+  const result: number = line2.point1.z - line2.point1.x * k2 - line1.point1.z + line1.point1.x * k1;
+  const xCross: number = (result) / kDifference;
   const zCross: number = k1 * xCross + b1;
   return [xCross, zCross];
 }
 
-export default function isIntersection(line1: Line, line2: Line): boolean {
+export default function isIntersection(
+  line1: Line, 
+  line2: Line
+  ): boolean {
+    
   let xCross: number;
   let zCross: number;
   const xDifference1: number = line1.point2.x - line1.point1.x;

@@ -22,7 +22,7 @@ export default class Polygon {
 
     // Здесь считаются координаты полигона в зависимости от позиции(x, z)
     // Меняем позицию и сразу высчитываются координаты
-    set position(newPosition) {
+    set position(newPosition : Point) {
 
         this.coordinates = this.coordinates.map((point) => {
             return {

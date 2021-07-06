@@ -6,7 +6,11 @@ import Point from './Point';
 
 let priority = 0;
 
-function crossLines(draggingPolygon: Polygon, polygon: Polygon): void {
+function crossLines(
+    draggingPolygon: Polygon, 
+    polygon: Polygon
+    ): void {
+
     if (!draggingPolygon.arrIntersections.includes(polygon.id)) {
         draggingPolygon.arrIntersections.push(polygon.id);
     }
@@ -16,7 +20,13 @@ function crossLines(draggingPolygon: Polygon, polygon: Polygon): void {
     }
 }
 
-function isCrossedLines(draggingPolygon: Polygon, nextDraggingIndex: number, draggingPoint: Point, polygon: Polygon): boolean {
+function isCrossedLines(
+    draggingPolygon: Polygon, 
+    nextDraggingIndex: number, 
+    draggingPoint: Point, 
+    polygon: Polygon
+    ): boolean {
+
     let isCrossed: boolean = false;
 
     polygon.coordinates.forEach((point, index) => {
@@ -35,14 +45,25 @@ function isCrossedLines(draggingPolygon: Polygon, nextDraggingIndex: number, dra
     return isCrossed;
 }
 
-function deleteConnection(draggingPolygon: Polygon, polygon: Polygon){
+function deleteConnection(
+    draggingPolygon: Polygon, 
+    polygon: Polygon
+    ): void {
+
     if (draggingPolygon.arrIntersections.includes(polygon.id)) {
         draggingPolygon.arrIntersections.splice(draggingPolygon.arrIntersections.indexOf(polygon.id), 1);
         polygon.arrIntersections.splice(polygon.arrIntersections.indexOf(draggingPolygon.id), 1);
     }
 };
 
-function mapPolygon(draggingPolygon: Polygon, polygon: Polygon, draggingPoint: Point, nextDraggingIndex: number, arrIntersections: Array<number | never>): void {
+function mapPolygon(
+    draggingPolygon: Polygon, 
+    polygon: Polygon, 
+    draggingPoint: Point, 
+    nextDraggingIndex: number, 
+    arrIntersections: Array<number | never>
+    ): void {
+
     if ((draggingPolygon.id !== polygon.id) && !arrIntersections.includes(polygon.id)) {
         let isCrossed = false;
         isCrossed = isCrossedLines(draggingPolygon, nextDraggingIndex, draggingPoint, polygon);
@@ -55,7 +76,11 @@ function mapPolygon(draggingPolygon: Polygon, polygon: Polygon, draggingPoint: P
     }
 }
 
-function mapDraggingCoordinates(draggingPolygon: Polygon, polygons: Array<Polygon>) {
+function mapDraggingCoordinates(
+    draggingPolygon: Polygon, 
+    polygons: Array<Polygon>
+    ): void {
+        
     const arrIntersections: Array<number | never> = [];
     draggingPolygon.coordinates.forEach((draggingPoint, index) => {
         let nextDraggingIndex = index + 1;
