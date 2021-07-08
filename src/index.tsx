@@ -3,7 +3,7 @@ import ReactDom from 'react-dom';
 import mousedown from './scripts/mousedown';
 import mousemove from './scripts/mousemove';
 import mouseup from './scripts/mouseup';
-import Canvas from './scripts/CanvasClass';
+import Canvas from './scripts/Canvas';
 import calcPosition from './scripts/calcPosition';
 import polygons from './scripts/polygons';
 import Polygon from './scripts/Polygon';
@@ -16,7 +16,7 @@ const App: React.FC = () => {
 
     const calcHeightWidthCanvas = () => {
         canvas.current.height = document.body.clientHeight - 50;
-        canvas.current.width = document.body.clientWidth - 50;
+        canvas.current.width = document.body.clientWidth - 150;
     }
 
     const resize = () => {
@@ -27,8 +27,8 @@ const App: React.FC = () => {
     }
 
     const initCanvas = () => {
-        const arrObjPolygons = polygons.map((polygon, index) => {
-            return new Polygon(canvas.current, polygon, index)
+        const arrObjPolygons = polygons.map((polygon) => {
+            return new Polygon(canvas.current, polygon, new Date())
         })
 
         canvasClass.current = new Canvas(canvas.current, arrObjPolygons);
@@ -48,14 +48,17 @@ const App: React.FC = () => {
     }, [])
 
     return(
-        <div id="wrapper-canvas">
+        <div 
+            id="wrapper-canvas"
+            onMouseDown={(e: React.MouseEvent<HTMLElement>) => mousedown(e, canvasClass.current)}
+            onMouseMove={(e: React.MouseEvent<HTMLElement>) => mousemove(e, canvasClass.current)}
+            onMouseUp={() => mouseup(canvasClass.current)}
+        >
             <canvas 
                 id='canvas'
                 ref={canvas}
-                onMouseDown={(e: React.MouseEvent<HTMLCanvasElement>) => mousedown(e, canvasClass.current)}
-                onMouseMove={(e: React.MouseEvent<HTMLCanvasElement>) => mousemove(e, canvasClass.current)}
-                onMouseUp={() => mouseup(canvasClass.current)}
-            >Обновите браузер
+            >
+                Обновите браузер
             </canvas>
         </div>
     );

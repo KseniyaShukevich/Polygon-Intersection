@@ -4,6 +4,7 @@ import Point from './Point';
 export default class Canvas {
     canvas: HTMLCanvasElement;
     polygons: Array<Polygon>;
+    menu: Polygon;
 
     constructor(
         canvas: HTMLCanvasElement, 
@@ -12,6 +13,17 @@ export default class Canvas {
             
         this.polygons = polygons;
         this.canvas = canvas;
+        this.menu = new Polygon(
+            this.canvas,
+            [
+                new Point(0, 0),
+                new Point(80, 0),
+                new Point(80, 400),
+                new Point(0, 400),
+                new Point(0, 0),
+            ],
+            new Date()
+        );
     }
 
     _sort(): void {
@@ -37,9 +49,17 @@ export default class Canvas {
         this.polygons[0].ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
+    drawMenu(): void {
+        this.menu.ctx.beginPath();
+        this._drawLines(this.menu);
+        this.menu.ctx.fillStyle = '#4682B4';
+        this.menu.ctx.fill();
+    }
+
     draw(): void {
         this.clear();
         this._sort();
+        this.drawMenu();
 
         this.polygons.forEach((polygon) => {
             polygon.ctx.beginPath();
@@ -52,6 +72,7 @@ export default class Canvas {
             }
 
             polygon.ctx.stroke();
+            polygon.ctx.closePath();
         });
     }
 
@@ -65,6 +86,14 @@ export default class Canvas {
             draggingPolygon.position.z + point.z
             );
         this.draw();
+    }
+
+    clone(id: Date) { 
+        const polygon = this.polygons.find((el) => el.id === id);
+        const newPolygon = new Polygon(this.canvas, polygon.arr, new Date(), true);
+        newPolygon.position = polygon.position;
+        this.polygons.push(newPolygon);
+        return newPolygon;
     }
 
     initDraw(

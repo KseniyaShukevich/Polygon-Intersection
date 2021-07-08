@@ -2,22 +2,27 @@ import Point from './Point';
 
 export default class Polygon {
     canvas: HTMLCanvasElement
-    id: number;
+    id: Date;
+    arr: Array<Point>
     coordinates: Array<Point>;
     ctx: any;
     priority: number;
     isDragging: boolean;
-    arrIntersections: Array<number | never>;
+    arrIntersections: Array<Date | never>;
+    isCloned: boolean;
     _position: Point;
 
     constructor(
         canvas: HTMLCanvasElement, 
         arr: Array<Point>, 
-        id: number
+        id: Date,
+        isCloned: boolean = false
         ) {
-            
+
+        this.isCloned = isCloned;
         this.id = id;
-        this.coordinates = [new Point(0, 0), ...arr, new Point(0, 0)];
+        this.arr = arr;
+        this.coordinates = arr;
         this.ctx = canvas.getContext('2d');
         this.priority = 0;
         this.isDragging = false;

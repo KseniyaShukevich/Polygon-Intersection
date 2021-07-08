@@ -1,4 +1,4 @@
-import Canvas from './CanvasClass';
+import Canvas from './Canvas';
 import inPolygon from './inPolygon';
 import Point from './Point';
 import Polygon from './Polygon';
@@ -19,11 +19,11 @@ function chooseDraggingElement(
 }
   
 export default function mousedown(
-    e: React.MouseEvent<HTMLCanvasElement>,
+    e: React.MouseEvent<HTMLElement>,
     canvas: Canvas
     ): void {
 
-    const { left, top } = (e.target as HTMLCanvasElement).getBoundingClientRect();
+    const { left, top } = (e.target as HTMLElement).getBoundingClientRect();
     const currentMouseX = e.pageX - left
     const currentMouseZ = e.pageY - top;
     const potentialDraggingPolygons = canvas.polygons.filter((polygon) => {
@@ -31,7 +31,10 @@ export default function mousedown(
     });
 
    if (potentialDraggingPolygons.length) {
-        const draggingPolygon = chooseDraggingElement(potentialDraggingPolygons);
+        let draggingPolygon = chooseDraggingElement(potentialDraggingPolygons);
+        if (!draggingPolygon.isCloned) {
+            draggingPolygon = canvas.clone(draggingPolygon.id);
+        }
         draggingPolygon.isDragging = true;
    }
 }

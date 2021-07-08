@@ -1,4 +1,4 @@
-import Canvas from './CanvasClass';
+import Canvas from './Canvas';
 import isIntersection from './isIntersection';
 import Line from './Line';
 import Polygon from './Polygon';
@@ -61,11 +61,11 @@ function mapPolygon(
     polygon: Polygon, 
     draggingPoint: Point, 
     nextDraggingIndex: number, 
-    arrIntersections: Array<number | never>
+    arrIntersections: Array<Date | never>
     ): void {
 
     if ((draggingPolygon.id !== polygon.id) && !arrIntersections.includes(polygon.id)) {
-        let isCrossed = false;
+        let isCrossed: boolean = false;
         isCrossed = isCrossedLines(draggingPolygon, nextDraggingIndex, draggingPoint, polygon);
         if (isCrossed) {
             crossLines(draggingPolygon, polygon);
@@ -81,14 +81,16 @@ function mapDraggingCoordinates(
     polygons: Array<Polygon>
     ): void {
         
-    const arrIntersections: Array<number | never> = [];
+    const arrIntersections: Array<Date | never> = [];
     draggingPolygon.coordinates.forEach((draggingPoint, index) => {
         let nextDraggingIndex = index + 1;
         if (!draggingPolygon.coordinates[nextDraggingIndex]) {
             return;
         }
         polygons.forEach((polygon) => {
-            mapPolygon(draggingPolygon, polygon, draggingPoint, nextDraggingIndex, arrIntersections);
+            if(polygon.isCloned) {
+                mapPolygon(draggingPolygon, polygon, draggingPoint, nextDraggingIndex, arrIntersections);
+            };
         });
     })
 }
@@ -96,8 +98,9 @@ function mapDraggingCoordinates(
 export default function mouseup(
     canvas: Canvas,
 ): void {
-    const draggingPolygon = canvas.polygons.find((polygon) => polygon.isDragging);
-    if (draggingPolygon) {
+
+    const draggingPolygon: Polygon = canvas.polygons.find((polygon) => polygon.isDragging);
+    if (draggingPolygon && draggingPolygon.isCloned) {
         draggingPolygon.isDragging = false;
         mapDraggingCoordinates(draggingPolygon, canvas.polygons);
         canvas.draw();

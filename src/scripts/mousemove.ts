@@ -1,9 +1,9 @@
-import Canvas from './CanvasClass';
+import Canvas from './Canvas';
 import Point from './Point';
 import Polygon from './Polygon';
 
 export default function mousemove(
-    e: React.MouseEvent<HTMLCanvasElement>,
+    e: React.MouseEvent<HTMLElement>,
     canvas: Canvas
     ): void {
         
