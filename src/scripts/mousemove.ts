@@ -3,7 +3,7 @@ import Point from './Point';
 import Polygon from './Polygon';
 
 export default function mousemove(
-    e: MouseEvent,
+    e: React.MouseEvent<HTMLCanvasElement>,
     canvas: Canvas
     ): void {
         

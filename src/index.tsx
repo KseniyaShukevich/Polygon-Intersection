@@ -52,9 +52,9 @@ const App: React.FC = () => {
             <canvas 
                 id='canvas'
                 ref={canvas}
-                onMouseDown={(e: any) => mousedown(e, canvasClass.current)}
-                onMouseMove={(e: any) => mousemove(e, canvasClass.current)}
-                onMouseUp={(e) => mouseup(e, canvasClass.current)}
+                onMouseDown={(e: React.MouseEvent<HTMLCanvasElement>) => mousedown(e, canvasClass.current)}
+                onMouseMove={(e: React.MouseEvent<HTMLCanvasElement>) => mousemove(e, canvasClass.current)}
+                onMouseUp={() => mouseup(canvasClass.current)}
             >Обновите браузер
             </canvas>
         </div>

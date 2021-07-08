@@ -19,7 +19,7 @@ function chooseDraggingElement(
 }
   
 export default function mousedown(
-    e: MouseEvent,
+    e: React.MouseEvent<HTMLCanvasElement>,
     canvas: Canvas
     ): void {
 

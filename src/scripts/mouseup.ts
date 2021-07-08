@@ -94,7 +94,6 @@ function mapDraggingCoordinates(
 }
 
 export default function mouseup(
-    e: any,
     canvas: Canvas,
 ): void {
     const draggingPolygon = canvas.polygons.find((polygon) => polygon.isDragging);
