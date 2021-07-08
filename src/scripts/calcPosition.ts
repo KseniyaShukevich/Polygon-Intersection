@@ -20,12 +20,15 @@ export default function calcPosition(): (value: Array<Point>) => Array<Point | o
     let position: Point = new Point(indentation, indentation);
     let newPosition: Point = new Point(0, 0);
 
-    return function calcNextPosition(polygonCoordinates: Array<Point>): Array<Point | object> {
+    return function calcNextPosition(
+        polygonCoordinates: Array<Point>
+        ): Array<Point | object> {
+            
         position.x += newPosition.x;
         position.z += newPosition.z;
         const maxZ: number = calcMaxZ(polygonCoordinates);
         newPosition = new Point(0, maxZ + indentation);
 
-        return [{...position}, calcNextPosition];
+        return [position.clone(), calcNextPosition];
     }
 }

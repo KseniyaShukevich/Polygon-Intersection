@@ -13,7 +13,7 @@ window.addEventListener('resize', () => {
     canvasClass.draw();
 });
 
-canvas.addEventListener('mousedown', (e: any) => mousedown(e));
+canvas.addEventListener('mousedown', (e: MouseEvent) => mousedown(e));
 
 canvas.addEventListener('mousemove', (e: MouseEvent) => mousemove(e));
 

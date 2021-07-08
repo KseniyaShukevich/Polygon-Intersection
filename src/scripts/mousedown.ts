@@ -19,11 +19,12 @@ function chooseDraggingElement(
 }
   
 export default function mousedown(
-    e: {target: HTMLElement; pageX: number; pageY: number}
+    e: MouseEvent
     ): void {
-        
-    const currentMouseX = e.pageX - e.target.offsetLeft;
-    const currentMouseZ = e.pageY - e.target.offsetTop;
+
+    const { left, top } = (e.target as HTMLCanvasElement).getBoundingClientRect();
+    const currentMouseX = e.pageX - left
+    const currentMouseZ = e.pageY - top;
     const potentialDraggingPolygons = canvasClass.polygons.filter((polygon) => {
         return inPolygon(new Point(currentMouseX, currentMouseZ), polygon);
     });

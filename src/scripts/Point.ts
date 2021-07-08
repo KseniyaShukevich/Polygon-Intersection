@@ -6,4 +6,8 @@ export default class Point {
         this.x = x;
         this.z = z;
     }
+
+    clone() {
+        return new Point(this.x, this.z);
+    }
 }

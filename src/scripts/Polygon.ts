@@ -22,13 +22,15 @@ export default class Polygon {
 
     // Здесь считаются координаты полигона в зависимости от позиции(x, z)
     // Меняем позицию и сразу высчитываются координаты
-    set position(newPosition : Point) {
+    set position(
+        newPosition : Point
+        ) {
 
         this.coordinates = this.coordinates.map((point) => {
-            return {
-                x: point.x - this._position.x + newPosition.x,
-                z: point.z - this._position.z + newPosition.z
-            }
+            return new Point(
+                point.x - this._position.x + newPosition.x, 
+                point.z - this._position.z + newPosition.z
+                )
         });
         
         this._position = newPosition;

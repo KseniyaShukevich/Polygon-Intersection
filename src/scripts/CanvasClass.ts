@@ -67,7 +67,8 @@ class Canvas {
     }
 
     initDraw(
-        calcPosition: (value: Array<Point>) => Array<any>
+        calcPosition: (
+            value: Array<Point>) => Array<any>
         ): void {
             
         this.polygons.forEach((polygon) => {
