@@ -1,7 +1,7 @@
-import { canvas } from './canvas';
 import Point from './Point';
 
 export default class Polygon {
+    canvas: HTMLCanvasElement
     id: number;
     coordinates: Array<Point>;
     ctx: any;
@@ -10,7 +10,12 @@ export default class Polygon {
     arrIntersections: Array<number | never>;
     _position: Point;
 
-    constructor(arr: Array<Point>, id: number) {
+    constructor(
+        canvas: HTMLCanvasElement, 
+        arr: Array<Point>, 
+        id: number
+        ) {
+            
         this.id = id;
         this.coordinates = [new Point(0, 0), ...arr, new Point(0, 0)];
         this.ctx = canvas.getContext('2d');

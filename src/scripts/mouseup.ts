@@ -1,4 +1,4 @@
-import canvasClass from './CanvasClass';
+import Canvas from './CanvasClass';
 import isIntersection from './isIntersection';
 import Line from './Line';
 import Polygon from './Polygon';
@@ -93,11 +93,14 @@ function mapDraggingCoordinates(
     })
 }
 
-export default function mouseup(): void {
-    const draggingPolygon = canvasClass.polygons.find((polygon) => polygon.isDragging);
+export default function mouseup(
+    e: any,
+    canvas: Canvas,
+): void {
+    const draggingPolygon = canvas.polygons.find((polygon) => polygon.isDragging);
     if (draggingPolygon) {
         draggingPolygon.isDragging = false;
-        mapDraggingCoordinates(draggingPolygon, canvasClass.polygons);
-        canvasClass.draw();
+        mapDraggingCoordinates(draggingPolygon, canvas.polygons);
+        canvas.draw();
     }
 }

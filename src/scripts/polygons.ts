@@ -1,4 +1,3 @@
-import Polygon from './Polygon';
 import Point from './Point';
 
 const polygon1: Array<Point> = [
@@ -79,8 +78,4 @@ const polygons: Array<Array<Point>> = [
     polygon10
 ]
 
-const arrObjPolygons: Array<Polygon> = polygons.map((polygon, index) => {
-    return new Polygon(polygon, index);
-})
-
-export default arrObjPolygons;
+export default polygons;

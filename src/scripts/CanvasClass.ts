@@ -1,16 +1,17 @@
-import polygons from './polygons';
-import calcPosition from './calcPosition';
 import Polygon from './Polygon';
 import Point from './Point';
-import { canvas } from './canvas';
 
-let funcCalcPosition = calcPosition();
-
-class Canvas {
+export default class Canvas {
+    canvas: HTMLCanvasElement;
     polygons: Array<Polygon>;
 
-    constructor(polygons: Array<Polygon>) {
+    constructor(
+        canvas: HTMLCanvasElement, 
+        polygons: Array<Polygon>
+        ) {
+            
         this.polygons = polygons;
+        this.canvas = canvas;
     }
 
     _sort(): void {
@@ -33,7 +34,7 @@ class Canvas {
     }
 
     clear(): void {
-        this.polygons[0].ctx.clearRect(0, 0, canvas.width, canvas.height);
+        this.polygons[0].ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
     draw(): void {
@@ -71,7 +72,7 @@ class Canvas {
             value: Array<Point>) => Array<any>
         ): void {
             
-        this.polygons.forEach((polygon) => {
+        this.polygons.forEach((polygon, index) => {
             const [position, func] = calcPosition(polygon.coordinates);
             polygon.position = position;
             calcPosition = func;
@@ -80,8 +81,3 @@ class Canvas {
         this.draw();
     }
 }
-
-const canvasClass: Canvas = new Canvas(polygons);
-canvasClass.initDraw(funcCalcPosition);
-
-export default canvasClass;

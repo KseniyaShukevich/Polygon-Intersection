@@ -1,4 +1,4 @@
-import canvasClass from './CanvasClass';
+import Canvas from './CanvasClass';
 import inPolygon from './inPolygon';
 import Point from './Point';
 import Polygon from './Polygon';
@@ -19,13 +19,14 @@ function chooseDraggingElement(
 }
   
 export default function mousedown(
-    e: MouseEvent
+    e: MouseEvent,
+    canvas: Canvas
     ): void {
 
     const { left, top } = (e.target as HTMLCanvasElement).getBoundingClientRect();
     const currentMouseX = e.pageX - left
     const currentMouseZ = e.pageY - top;
-    const potentialDraggingPolygons = canvasClass.polygons.filter((polygon) => {
+    const potentialDraggingPolygons = canvas.polygons.filter((polygon) => {
         return inPolygon(new Point(currentMouseX, currentMouseZ), polygon);
     });
 
