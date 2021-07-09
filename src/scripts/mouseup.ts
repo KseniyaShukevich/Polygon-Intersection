@@ -2,7 +2,7 @@ import canvasClass from './CanvasClass';
 import isIntersection from './isIntersection';
 import Line from './Line';
 import Polygon from './Polygon';
-import Point from './Point';
+import { getLines } from './services';
 
 let priority = 0;
 
@@ -21,22 +21,15 @@ function crossLines(
 }
 
 function isCrossedLines(
-    draggingPolygon: Polygon, 
-    nextDraggingIndex: number, 
-    draggingPoint: Point, 
+    draggingLine: Line, 
     polygon: Polygon
     ): boolean {
 
+    const lines = getLines(polygon);
     let isCrossed: boolean = false;
-
-    polygon.coordinates.forEach((point, index) => {
-        let nextIndexCoordinates: number = index + 1;
-        if (!polygon.coordinates[nextIndexCoordinates]) {
-            return;
-        }
-        const draggingLine: Line = new Line(draggingPoint, draggingPolygon.coordinates[nextDraggingIndex]);
-        const polygonLine: Line = new Line(point, polygon.coordinates[nextIndexCoordinates]);
-        if (isIntersection(draggingLine, polygonLine)) {
+   
+    lines.forEach((line) => {
+        if (isIntersection(draggingLine, line)) {
             isCrossed = true;
             return;
         }
@@ -59,14 +52,13 @@ function deleteConnection(
 function mapPolygon(
     draggingPolygon: Polygon, 
     polygon: Polygon, 
-    draggingPoint: Point, 
-    nextDraggingIndex: number, 
+    draggingLine: Line,
     arrIntersections: Array<string | never>
     ): void {
 
     if ((draggingPolygon.id !== polygon.id) && !arrIntersections.includes(polygon.id)) {
         let isCrossed = false;
-        isCrossed = isCrossedLines(draggingPolygon, nextDraggingIndex, draggingPoint, polygon);
+        isCrossed = isCrossedLines(draggingLine, polygon);
         if (isCrossed) {
             crossLines(draggingPolygon, polygon);
             arrIntersections.push(polygon.id);
@@ -82,17 +74,14 @@ function mapDraggingCoordinates(
     ): void {
         
     const arrIntersections: Array<string | never> = [];
-    draggingPolygon.coordinates.forEach((draggingPoint, index) => {
-        let nextDraggingIndex = index + 1;
-        if (!draggingPolygon.coordinates[nextDraggingIndex]) {
-            return;
-        }
+    const linesDragging = getLines(draggingPolygon);
+    linesDragging.forEach((line) => {
         polygons.forEach((polygon) => {
             if (polygon.isCloned) {
-                mapPolygon(draggingPolygon, polygon, draggingPoint, nextDraggingIndex, arrIntersections);
+                mapPolygon(draggingPolygon, polygon, line, arrIntersections);
             }
         });
-    })
+    });
 }
 
 export default function mouseup(): void {

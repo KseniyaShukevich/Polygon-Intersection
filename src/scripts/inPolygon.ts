@@ -2,20 +2,7 @@ import isIntersection from './isIntersection';
 import Point from './Point';
 import Line from './Line';
 import Polygon from './Polygon';
-
-function getLines(
-    polygon: Polygon)
-    : Array<Line> {
-
-    return polygon.coordinates.reduce((result, point, index, coordinates) => {
-        let nextIndex: number = index + 1;
-        if (!coordinates[nextIndex]) {
-            return result;
-        }
-
-        return [...result, new Line(point, coordinates[nextIndex])];
-    }, []);
-}
+import { getLines } from './services';
 
 function haveSameZ(coordinates: Array<Point>, mousePoint: Point) {
     let isSame = false;
@@ -27,8 +14,6 @@ function haveSameZ(coordinates: Array<Point>, mousePoint: Point) {
 
     return isSame;
 }
-
-
  
 export default function inPolygon(
     mousePoint: Point, 

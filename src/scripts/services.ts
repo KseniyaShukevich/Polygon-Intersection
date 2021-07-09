@@ -1,4 +1,6 @@
 import Point from "./Point";
+import Polygon from "./Polygon";
+import Line from "./Line";
 
 function getCoordinates(elem: HTMLElement) { 
     const box = elem.getBoundingClientRect();
@@ -12,4 +14,18 @@ export function getShiftXZ(e: any) {
   const shiftX = e.pageX - coords.x;
   const shiftZ = e.pageY - coords.z;
   return [shiftX, shiftZ];
+}
+
+export function getLines(
+  polygon: Polygon)
+  : Array<Line> {
+
+  return polygon.coordinates.reduce((result, point, index, coordinates) => {
+      let nextIndex: number = index + 1;
+      if (!coordinates[nextIndex]) {
+          return result;
+      }
+
+      return [...result, new Line(point, coordinates[nextIndex])];
+  }, []);
 }

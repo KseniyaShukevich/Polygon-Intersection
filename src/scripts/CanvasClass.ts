@@ -2,6 +2,7 @@ import polygons from './polygons';
 import Polygon from './Polygon';
 import Point from './Point';
 import { canvas } from './canvas';
+import Image from './image'
 
 class Canvas {
     polygons: Array<Polygon>;
@@ -44,12 +45,12 @@ class Canvas {
                 polygon.ctx.beginPath();
 
                 this._drawLines(polygon);
-                
+
                 if (polygon.arrIntersections.length) {
                     polygon.ctx.fillStyle = 'red';
                     polygon.ctx.fill(); 
                 }
-            
+
                 polygon.ctx.stroke();
             }
         });
@@ -81,10 +82,7 @@ class Canvas {
         canvas.width = 60;
         polygons.forEach((polygon) => {
             polygon.draw();
-            this.images.push({
-                id: polygon.id,
-                data: canvas.toDataURL()
-            });
+            this.images.push(new Image(polygon.id, canvas.toDataURL()));
             this.clear();
         });
         canvas.height = document.body.clientHeight - 50;

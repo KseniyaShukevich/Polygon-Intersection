@@ -4,11 +4,13 @@ import canvasClass from './CanvasClass';
 import inPolygon from './inPolygon';
 import Point from './Point';
 import { getShiftXZ } from './services';
+import '../styles/index.css';
+import Image from './image';
 
 const Menu: React.FC = () => {
     const draggingImage = useRef(null);
 
-    const mousedown = (e: React.MouseEvent<HTMLImageElement>, image: any) => {
+    const mousedown = (e: React.MouseEvent<HTMLImageElement>, image: Image) => {
         const [shiftX, shiftZ] = getShiftXZ(e);
 
         const polygon = canvasClass.polygons.find((elem) => elem.id === image.id);
@@ -38,15 +40,15 @@ const Menu: React.FC = () => {
 
     return(
         <>
-            <div style={{width: 100, height: '100vh', background: 'DarkGrey', boxShadow: '4px 3px 5px rgba(0, 0, 0, 0.7)'}}>
-                <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center', height: 600}}>
+            <div className='menu'>
+                <div className='wrapper-images'>
                 {
                     canvasClass.images.map((image) => {
                         return <img
                                     src={image.data} 
                                     key={image.id} 
                                     id={image.id}
-                                    style={{width: 60, select: 'none', msUserSelect: 'none', userSelect: 'none'}}
+                                    className='image'
                                     onDragStart={(e) => e.preventDefault()}
                                     onMouseDown={(e) => mousedown(e, image)}
                                 />
@@ -56,7 +58,7 @@ const Menu: React.FC = () => {
             </div>
             <img 
                 ref={draggingImage}
-                style={{width: 60, select: 'none', msUserSelect: 'none', userSelect: 'none', position: 'absolute'}}
+                className='dragging-image'
                 onDragStart={(e) => e.preventDefault()}
                 onMouseUp={() => mouseup()}
             />
