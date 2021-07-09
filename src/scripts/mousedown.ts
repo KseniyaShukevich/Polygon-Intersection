@@ -28,10 +28,10 @@ function clonePolygon(
     id: string
     ): void {
 
-    const [shiftX, shiftZ] = getShiftXZ(e);
+    const shift = getShiftXZ(e);
     let draggingPolygon = canvasClass.clone(id);
     draggingPolygon.isDragging = true;
-    draggingPolygon.position = new Point(e.pageX - shiftX - left, e.pageY - shiftZ - top);
+    draggingPolygon.position = new Point(e.pageX - shift.x - left, e.pageY - shift.z - top);
 }
 
 function checkPolygon(
@@ -55,12 +55,12 @@ export default function mousedown(
     e: MouseEvent
     ): void {
 
-    const [shiftX, shiftZ] = getShiftXZ(e);
+    const shift = getShiftXZ(e);
     const id = (e.target as HTMLElement).id;
     const menuPolygon = canvasClass.polygons.find((polygon) => polygon.id === id);
     const { left, top } = canvas.getBoundingClientRect();
 
-    if (menuPolygon && inPolygon(new Point(shiftX, shiftZ), menuPolygon)) {
+    if (menuPolygon && inPolygon(new Point(shift.x, shift.z), menuPolygon)) {
         clonePolygon(e, left, top, id);
     } else {
         checkPolygon(e, left, top);

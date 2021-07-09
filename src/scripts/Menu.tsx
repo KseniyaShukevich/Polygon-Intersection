@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import ReactDom from 'react-dom';
 import canvasClass from './CanvasClass';
 import inPolygon from './inPolygon';
@@ -10,28 +10,37 @@ import Image from './image';
 const Menu: React.FC = () => {
     const draggingImage = useRef(null);
 
-    const mousedown = (e: React.MouseEvent<HTMLImageElement>, image: Image) => {
-        const [shiftX, shiftZ] = getShiftXZ(e);
+    const moveAt = (
+        e: any, 
+        shiftX: number, 
+        shiftZ: number
+        ): void => {
 
+        draggingImage.current.style.left = e.pageX - shiftX + 'px';
+        draggingImage.current.style.top = e.pageY - shiftZ + 'px';
+    }
+
+    const mousedown = (
+        e: React.MouseEvent<HTMLImageElement>, 
+        image: Image
+        ) => {
+
+        const shift = getShiftXZ(e);
         const polygon = canvasClass.polygons.find((elem) => elem.id === image.id);
-        if (inPolygon(new Point(shiftX, shiftZ), polygon)){
+        
+        if (inPolygon(new Point(shift.x, shift.z), polygon)){
             draggingImage.current.src = image.data;
             draggingImage.current.id = image.id;
 
-            moveAt(e);
+            moveAt(e, shift.x, shift.z);
         }
 
-        function moveAt(e: any) {
-            draggingImage.current.style.left = e.pageX - shiftX + 'px';
-            draggingImage.current.style.top = e.pageY - shiftZ + 'px';
-          }
-
         document.onmousemove = function(e) {
-          moveAt(e);
+          moveAt(e, shift.x, shift.z);
         };
     }
 
-    const mouseup = () => {
+    const mouseup = (): void => {
         document.onmousemove = null;
         draggingImage.current.onmouseup = null;
         draggingImage.current.src = '';
