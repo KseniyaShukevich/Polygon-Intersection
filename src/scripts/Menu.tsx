@@ -38,7 +38,7 @@ const Menu: React.FC = () => {
 
     return(
         <>
-            <div style={{width: 100, height: '100vh', background: 'gray', boxShadow: '4px 3px 5px rgba(0, 0, 0, 0.7)'}}>
+            <div style={{width: 100, height: '100vh', background: 'DarkGrey', boxShadow: '4px 3px 5px rgba(0, 0, 0, 0.7)'}}>
                 <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center', height: 600}}>
                 {
                     canvasClass.images.map((image) => {
