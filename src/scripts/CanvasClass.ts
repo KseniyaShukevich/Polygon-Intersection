@@ -1,16 +1,15 @@
 import polygons from './polygons';
-import calcPosition from './calcPosition';
 import Polygon from './Polygon';
 import Point from './Point';
 import { canvas } from './canvas';
 
-let funcCalcPosition = calcPosition();
-
 class Canvas {
     polygons: Array<Polygon>;
+    images: Array<any>;
 
     constructor(polygons: Array<Polygon>) {
         this.polygons = polygons;
+        this.images = [];
     }
 
     _sort(): void {
@@ -41,16 +40,18 @@ class Canvas {
         this._sort();
 
         this.polygons.forEach((polygon) => {
-            polygon.ctx.beginPath();
+            if (polygon.isCloned) {
+                polygon.ctx.beginPath();
 
-            this._drawLines(polygon);
-
-            if (polygon.arrIntersections.length) {
-                polygon.ctx.fillStyle = 'red';
-                polygon.ctx.fill(); 
+                this._drawLines(polygon);
+                
+                if (polygon.arrIntersections.length) {
+                    polygon.ctx.fillStyle = 'red';
+                    polygon.ctx.fill(); 
+                }
+            
+                polygon.ctx.stroke();
             }
-
-            polygon.ctx.stroke();
         });
     }
 
@@ -66,22 +67,32 @@ class Canvas {
         this.draw();
     }
 
-    initDraw(
-        calcPosition: (
-            value: Array<Point>) => Array<any>
-        ): void {
-            
-        this.polygons.forEach((polygon) => {
-            const [position, func] = calcPosition(polygon.coordinates);
-            polygon.position = position;
-            calcPosition = func;
-        })
+    clone(id: string): Polygon {
+        const polygon = this.polygons.find((elem) => elem.id === id);
+        if (polygon) {
+            const newPolygon: Polygon = new Polygon(polygon.coordinates, true);
+            this.polygons.push(newPolygon);
+            return newPolygon;
+        }
+    }
 
-        this.draw();
+    initDraw(): void {
+        canvas.height = 60;
+        canvas.width = 60;
+        polygons.forEach((polygon) => {
+            polygon.draw();
+            this.images.push({
+                id: polygon.id,
+                data: canvas.toDataURL()
+            });
+            this.clear();
+        });
+        canvas.height = document.body.clientHeight - 50;
+        canvas.width = document.body.clientWidth - 250;
     }
 }
 
 const canvasClass: Canvas = new Canvas(polygons);
-canvasClass.initDraw(funcCalcPosition);
+canvasClass.initDraw();
 
 export default canvasClass;

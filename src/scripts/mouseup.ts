@@ -61,7 +61,7 @@ function mapPolygon(
     polygon: Polygon, 
     draggingPoint: Point, 
     nextDraggingIndex: number, 
-    arrIntersections: Array<number | never>
+    arrIntersections: Array<string | never>
     ): void {
 
     if ((draggingPolygon.id !== polygon.id) && !arrIntersections.includes(polygon.id)) {
@@ -81,14 +81,16 @@ function mapDraggingCoordinates(
     polygons: Array<Polygon>
     ): void {
         
-    const arrIntersections: Array<number | never> = [];
+    const arrIntersections: Array<string | never> = [];
     draggingPolygon.coordinates.forEach((draggingPoint, index) => {
         let nextDraggingIndex = index + 1;
         if (!draggingPolygon.coordinates[nextDraggingIndex]) {
             return;
         }
         polygons.forEach((polygon) => {
-            mapPolygon(draggingPolygon, polygon, draggingPoint, nextDraggingIndex, arrIntersections);
+            if (polygon.isCloned) {
+                mapPolygon(draggingPolygon, polygon, draggingPoint, nextDraggingIndex, arrIntersections);
+            }
         });
     })
 }
