@@ -80,7 +80,7 @@ class Canvas {
     initDraw(): void {
         canvas.height = 60;
         canvas.width = 60;
-        polygons.forEach((polygon) => {
+        this.polygons.forEach((polygon) => {
             polygon.draw();
             this.images.push(new Image(polygon.id, canvas.toDataURL()));
             this.clear();
