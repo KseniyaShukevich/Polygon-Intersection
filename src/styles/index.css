@@ -3,9 +3,50 @@
     padding: 0;
 }
 
-#wrapper-canvas {
+.wrapper {
+    background: Gainsboro; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    position: relative;
+}
+
+.wrapper-canvas {
     height: 100vh; 
+    width: calc(100% - 100px);
     display: flex; 
     justify-content: center; 
     align-items: center;
+}
+
+.canvas {
+    background: white;
+}
+
+.menu {
+    width: 100px; 
+    height: 100vh; 
+    background: DarkGrey;
+    box-shadow: 4px 3px 5px rgba(0, 0, 0, 0.7);
+}
+
+.wrapper-images {
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-around; 
+    align-items: center; 
+    height: 600px;
+}
+
+.image {
+    width: 60px;
+    -ms-user-select: none; 
+    user-select: none;
+}
+
+.dragging-image {
+    width: 60px; 
+    -ms-user-select: none; 
+    user-select: none; 
+    position: absolute;
 }
