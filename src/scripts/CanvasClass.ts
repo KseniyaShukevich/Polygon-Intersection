@@ -101,6 +101,19 @@ class Canvas {
         this.draw();
     }
 
+    _cloneCircleData(
+        polygon: Polygon
+    ): Circle {
+
+        return new Circle(
+            polygon.circleData.x, 
+            polygon.circleData.z, 
+            polygon.circleData.r, 
+            polygon.circleData.startAngle, 
+            polygon.circleData.endAngle
+        );
+    }
+
     clone(
         id: string
         ): Polygon {
@@ -110,20 +123,7 @@ class Canvas {
             let newPolygon: Polygon;
 
             if (polygon.isCircle) {
-                const newCircleData: Circle = new Circle(
-                    polygon.circleData.x, 
-                    polygon.circleData.z, 
-                    polygon.circleData.r, 
-                    polygon.circleData.startAngle, 
-                    polygon.circleData.endAngle
-                );
-
-                newPolygon = new Polygon(
-                    [],
-                    true, 
-                    newCircleData, 
-                    true
-                    );
+                newPolygon = new Polygon([], true, this._cloneCircleData(polygon), true);
             } else {
                 newPolygon = new Polygon(polygon.coordinates, true);
             }
