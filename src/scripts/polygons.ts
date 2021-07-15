@@ -81,8 +81,10 @@ const polygons: Array<IInitPolygon> = [
 
 const arrObjPolygons: Array<Polygon> = polygons.map((polygon) => {
     if (polygon.isCircle) {
+
         return new Polygon([], false, polygon.circleData, polygon.isCircle);
     }
+    
     return new Polygon(polygon.coordinates);
 })
 

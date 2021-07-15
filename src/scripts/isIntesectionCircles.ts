@@ -9,9 +9,6 @@ export default function isIntersectionCircles(
     const differenceZ: number = Math.abs(polygon2.circleData.z - polygon1.circleData.z);
     const sumRadius: number = polygon1.circleData.r + polygon2.circleData.r;
     const lengthToRadiuses: number = Math.sqrt(differenceX * differenceX + differenceZ * differenceZ);
-    if (lengthToRadiuses < sumRadius) {
-        return true;
-    }
 
-    return false;
+    return lengthToRadiuses < sumRadius;
 }

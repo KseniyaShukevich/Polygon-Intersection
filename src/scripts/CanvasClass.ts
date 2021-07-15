@@ -20,12 +20,14 @@ class Canvas {
     }
 
     _sort(): void {
+
         this.polygons.sort((polygon1, polygon2) => {
             return polygon1.priority - polygon2.priority;
         })
     }
 
     _clear(): void {
+
         this._ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
@@ -51,7 +53,7 @@ class Canvas {
             polygon.circleData.z, 
             polygon.circleData.r, 
             polygon.circleData.startAngle, 
-            polygon.circleData.endAngle
+            polygon.circleData.endAngle,
         );
     }
 
@@ -85,6 +87,7 @@ class Canvas {
     }
 
     draw(): void {
+
         this._clear();
         this._sort();
 
@@ -101,6 +104,7 @@ class Canvas {
     ): void {
 
         draggingPolygon.calcCoordinates(movementPoint);
+
         this.draw();
     }
 
@@ -113,7 +117,7 @@ class Canvas {
             polygon.circleData.z, 
             polygon.circleData.r, 
             polygon.circleData.startAngle, 
-            polygon.circleData.endAngle
+            polygon.circleData.endAngle,
         );
     }
 
@@ -122,6 +126,7 @@ class Canvas {
     ): Polygon {
 
         const polygon = this.polygons.find((elem) => elem.id === id);
+
         if (polygon) {
             let newPolygon: Polygon;
 
@@ -132,24 +137,29 @@ class Canvas {
             }
 
             this.polygons.push(newPolygon);
+
             return newPolygon;
         }
     }
 
     initDraw(): void {
+        
         canvas.height = 60;
         canvas.width = 60;
+
         this.polygons.forEach((polygon) => {
             this._drawPolygon(polygon);
             this.images.push(new Image(polygon.id, canvas.toDataURL()));
             this._clear();
         });
+
         canvas.height = document.body.clientHeight - 50;
         canvas.width = document.body.clientWidth - 250;
     }
 }
 
 const canvasClass: Canvas = new Canvas(polygons);
+
 canvasClass.initDraw();
 
 export default canvasClass;

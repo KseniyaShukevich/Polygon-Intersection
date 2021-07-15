@@ -15,16 +15,16 @@ function checkAlongOrdinates(
     const point1: Point = new Point(polygon.circleData.x, zCross); 
     const point2: Point = new Point(xCross, zCross);
     const testLine: Line = new Line(point1, point2);
-
     const lengthToCenter: number = Math.abs(line.point2.x - polygon.circleData.x);
-    return (isIntersection(line, testLine) &&
-            (polygon.circleData.r > lengthToCenter));
+    const isRadiusLonger: boolean = polygon.circleData.r > lengthToCenter;
+
+    return isIntersection(line, testLine) && isRadiusLonger;
 }
+
 
 function checkAlongAbscissa(
     line: Line, 
     polygon: Polygon,
-    lengthToCenter: number,
 ): boolean {
 
     const xCross: number = polygon.circleData.x;
@@ -32,11 +32,9 @@ function checkAlongAbscissa(
     const point1: Point = new Point(xCross, polygon.circleData.z);
     const point2: Point = new Point(xCross, zCross);
     const testLine: Line = new Line(point1, point2);
+    const isPointInCircle: boolean = inPolygon(line.point1, polygon) || inPolygon(line.point2, polygon);
 
-    return (polygon.circleData.r > lengthToCenter && 
-            (isIntersection(line, testLine) ||
-            inPolygon(line.point1, polygon) || 
-            inPolygon(line.point2, polygon)));
+    return isIntersection(line, testLine) || isPointInCircle;
 }
 
 function checkCircleAndLine(
@@ -50,11 +48,11 @@ function checkCircleAndLine(
     const xCross: number = (b2 - b1) / (2 * k1);
     const zCross: number = b2 - (k1 * xCross);
     const point1: Point = new Point(polygon.circleData.x, polygon.circleData.z);
-    const point2: Point = new Point(xCross, zCross)
+    const point2: Point = new Point(xCross, zCross);
+    const testLine: Line = new Line(point1, point2);
+    const isPointInCircle: boolean = inPolygon(line.point1, polygon) || inPolygon(line.point2, polygon);
 
-    return (isIntersection(line, new Line(point1, point2)) ||
-            inPolygon(line.point1, polygon) || 
-            inPolygon(line.point2, polygon));
+    return isIntersection(line, testLine) || isPointInCircle;
 
 }
 
@@ -66,12 +64,14 @@ function checkRestCases(
     const [k1, b1] = calcCoefficients(line);
     const dividend: number = Math.abs(k1 * polygon.circleData.x - polygon.circleData.z + b1);
     const lengthToCenter: number = dividend / Math.sqrt(k1 * k1 + 1);
+    const isRadiusLonger: boolean = polygon.circleData.r > lengthToCenter;
 
-    if (k1 === 0) {
-        return checkAlongAbscissa(line, polygon, lengthToCenter);
-    }
+    if (isRadiusLonger) {
+        if (k1 === 0) {
+            
+            return checkAlongAbscissa(line, polygon);
+        }
 
-    if (polygon.circleData.r > lengthToCenter) {
         return checkCircleAndLine(line, polygon, k1, b1);
     }
 
@@ -84,8 +84,10 @@ export default function isIntersectionCircle(
 ): boolean {
 
     if ((line.point2.x - line.point1.x) === 0) {
+
         return checkAlongOrdinates(line, polygon);
     } else {
+
         return checkRestCases(line, polygon);
     }
 }

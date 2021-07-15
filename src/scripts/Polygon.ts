@@ -41,8 +41,8 @@ export default class Polygon {
         this.coordinates = this.coordinates.map((point) => {
             return new Point(
                 point.x + movementPoint.x, 
-                point.z + movementPoint.z
-                )
+                point.z + movementPoint.z,
+                );
         })
     }
 }

@@ -44,12 +44,14 @@ function checkPolygon(
 ): void {
 
     const currentMouseX: number = e.pageX - left
-    const currentMouseZ: number = e.pageY - top;
+    const currentMouseZ: number = e.pageY - top;  
     const potentialDraggingPolygons: Array<Polygon> = canvasClass.polygons.filter((polygon) => {
         return inPolygon(new Point(currentMouseX, currentMouseZ), polygon);
     });
+
     if (potentialDraggingPolygons.length) {
         let draggingPolygon = chooseDraggingElement(potentialDraggingPolygons);
+        
         draggingPolygon.isDragging = true;
     }
 }
