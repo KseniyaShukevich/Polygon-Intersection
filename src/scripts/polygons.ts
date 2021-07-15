@@ -1,63 +1,91 @@
 import Polygon from './Polygon';
 import Point from './Point';
+import Circle from './Circle';
 
-const polygon1: Array<Point> = [
-    new Point(0, 0),
-    new Point(30, 60),
-    new Point(60, 0),
-    new Point(0, 0),
-]
+interface IInitPolygon {
+    coordinates?: Array<Point>
+    circleData?: Circle
+    position?: Point
+    isCircle?: boolean
+}
 
-const polygon2: Array<Point> = [
-    new Point(0, 0),
-    new Point(60, 0),
-    new Point(60, 60),
-    new Point(0, 60),
-    new Point(0, 0),
-]
+const polygon1: IInitPolygon = {
+    coordinates: [
+        new Point(0, 0),
+        new Point(30, 60),
+        new Point(60, 0),
+        new Point(0, 0),
+    ]
+}
 
-const polygon4: Array<Point> = [
-    new Point(0, 30),
-    new Point(30, 0),
-    new Point(60, 30),
-    new Point(30, 60),
-    new Point(0, 30),
-]
+const polygon2: IInitPolygon = {
+    coordinates: [
+        new Point(0, 0),
+        new Point(60, 0),
+        new Point(60, 60),
+        new Point(0, 60),
+        new Point(0, 0),
+    ]
+}
 
-const polygon5: Array<Point> = [
-    new Point(0, 20),
-    new Point(20, 20),
-    new Point(20, 0),
-    new Point(40, 0),
-    new Point(40, 20),
-    new Point(60, 20),
-    new Point(60, 40),
-    new Point(40, 40),
-    new Point(40, 60),
-    new Point(20, 60),
-    new Point(20, 40),
-    new Point(0, 40),
-    new Point(0, 20),
-]
+const polygon4: IInitPolygon = {
+    coordinates: [
+        new Point(0, 30),
+        new Point(30, 0),
+        new Point(60, 30),
+        new Point(30, 60),
+        new Point(0, 30),
+    ]
+}
 
-const polygon6: Array<Point> = [
-    new Point(0, 30),
-    new Point(15, 0),
-    new Point(45, 0),
-    new Point(60, 30),
-    new Point(0, 30),
-]
+const polygon5: IInitPolygon = {
+    coordinates: [
+        new Point(0, 20),
+        new Point(20, 20),
+        new Point(20, 0),
+        new Point(40, 0),
+        new Point(40, 20),
+        new Point(60, 20),
+        new Point(60, 40),
+        new Point(40, 40),
+        new Point(40, 60),
+        new Point(20, 60),
+        new Point(20, 40),
+        new Point(0, 40),
+        new Point(0, 20),
+    ]
+}
 
-const polygons: Array<Array<Point>> = [
+const polygon6: IInitPolygon = {
+    coordinates: [
+        new Point(0, 30),
+        new Point(15, 0),
+        new Point(45, 0),
+        new Point(60, 30),
+        new Point(0, 30),
+    ]
+}
+
+const polygon7: IInitPolygon = {
+    circleData: new Circle(29, 0, 2 * Math.PI),
+    position: new Point(30, 30),
+    isCircle: true
+}
+
+const polygons: Array<IInitPolygon> = [
     polygon1,
     polygon2,
     polygon4,
     polygon5,
     polygon6,
+    polygon7,
 ]
 
 const arrObjPolygons: Array<Polygon> = polygons.map((polygon) => {
-    return new Polygon(polygon);
+    if (polygon.isCircle) {
+        return new Polygon([], false, polygon.circleData, polygon.position, polygon.isCircle);
+    }
+    return new Polygon(polygon.coordinates);
 })
 
 export default arrObjPolygons;

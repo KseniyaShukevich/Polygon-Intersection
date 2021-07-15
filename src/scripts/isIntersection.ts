@@ -1,14 +1,5 @@
 import Line from './Line';
-
-function calcCoefficients(
-  line: Line
-  ): Array<number> {
-    
-  const xDifference: number = line.point2.x - line.point1.x;
-  const k: number = (line.point2.z - line.point1.z) / xDifference;
-  const b: number = line.point1.z - (line.point1.x * k);
-  return [k, b];
-}
+import { calcCoefficients } from './services';
 
 function getMaxAndMinXZ(
   line: Line
@@ -28,7 +19,6 @@ function checkPoint(
   ): boolean {
 
   const [maxX, minX, maxZ, minZ] = getMaxAndMinXZ(line);
-
   if ((xCross <= maxX) && (xCross >= minX) &&
      (zCross <= maxZ) && (zCross >= minZ)) {
     return true;
@@ -115,10 +105,10 @@ export default function isIntersection(
   line2: Line
   ): boolean {
     
-  let xCross: number;
-  let zCross: number;
   const xDifference1: number = line1.point2.x - line1.point1.x;
   const xDifference2: number = line2.point2.x - line2.point1.x;
+  let xCross: number;
+  let zCross: number;
 
   if ((xDifference1 === 0) && (xDifference2 !== 0)) {
     [xCross, zCross] = calcPointCrossAlongOrdinates(line1, line2);

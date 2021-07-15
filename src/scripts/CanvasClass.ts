@@ -19,19 +19,6 @@ class Canvas {
         })
     }
 
-    _drawLines(
-        polygon: Polygon
-        ): void {
-
-        for (let i = 0; i < polygon.coordinates.length; i++) {
-            if (i == 0) {
-                polygon.ctx.moveTo(polygon.coordinates[i].x, polygon.coordinates[i].z)
-            } else {
-                polygon.ctx.lineTo(polygon.coordinates[i].x, polygon.coordinates[i].z)
-            }; 
-        }
-    }
-
     clear(): void {
         this.polygons[0].ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
@@ -42,16 +29,7 @@ class Canvas {
 
         this.polygons.forEach((polygon) => {
             if (polygon.isCloned) {
-                polygon.ctx.beginPath();
-
-                this._drawLines(polygon);
-
-                if (polygon.arrIntersections.length) {
-                    polygon.ctx.fillStyle = 'red';
-                    polygon.ctx.fill(); 
-                }
-
-                polygon.ctx.stroke();
+                polygon.draw();
             }
         });
     }
@@ -68,10 +46,20 @@ class Canvas {
         this.draw();
     }
 
-    clone(id: string): Polygon {
+    clone(
+        id: string
+        ): Polygon {
+
         const polygon = this.polygons.find((elem) => elem.id === id);
         if (polygon) {
-            const newPolygon: Polygon = new Polygon(polygon.coordinates, true);
+            let newPolygon: Polygon;
+
+            if (polygon.isCircle) {
+                newPolygon = new Polygon([], true, polygon.circleData, polygon.position, true);
+            } else {
+                newPolygon = new Polygon(polygon.coordinates, true);
+            }
+
             this.polygons.push(newPolygon);
             return newPolygon;
         }

@@ -32,3 +32,13 @@ export function getLines(
       return [...result, new Line(point, coordinates[nextIndex])];
   }, []);
 }
+
+export function calcCoefficients(
+  line: Line
+  ): Array<number> {
+    
+  const xDifference: number = line.point2.x - line.point1.x;
+  const k: number = (line.point2.z - line.point1.z) / xDifference;
+  const b: number = line.point1.z - (line.point1.x * k);
+  return [k, b];
+}

@@ -30,8 +30,18 @@ function clonePolygon(
 
     const shift = getShiftXZ(e);
     let draggingPolygon = canvasClass.clone(id);
+
     draggingPolygon.isDragging = true;
-    draggingPolygon.position = new Point(e.pageX - shift.x - left, e.pageY - shift.z - top);
+
+    if (draggingPolygon.isCircle) {
+        const positionX: number = e.pageX - shift.x - left + draggingPolygon.position.x;
+        const positionZ: number = e.pageY - shift.z - top + draggingPolygon.position.z;
+        draggingPolygon.position = new Point(positionX, positionZ);
+    } else {
+        const positionX: number = e.pageX - shift.x - left;
+        const positionZ: number = e.pageY - shift.z - top;
+        draggingPolygon.position = new Point(positionX, positionZ);
+    }
 }
 
 function checkPolygon(
@@ -59,8 +69,9 @@ export default function mousedown(
     const id = (e.target as HTMLElement).id;
     const menuPolygon = canvasClass.polygons.find((polygon) => polygon.id === id);
     const { left, top } = canvas.getBoundingClientRect();
+    const shiftPoint: Point = new Point(shift.x, shift.z);
 
-    if (menuPolygon && inPolygon(new Point(shift.x, shift.z), menuPolygon)) {
+    if (menuPolygon && inPolygon(shiftPoint, menuPolygon)) {
         clonePolygon(e, left, top, id);
     } else {
         checkPolygon(e, left, top);
