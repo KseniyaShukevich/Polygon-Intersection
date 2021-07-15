@@ -4,7 +4,7 @@ import Line from './Line';
 import Polygon from './Polygon';
 import { getLines } from './services';
 import isIntersectionCircle from './isIntersectionCircle';
-import isIntersectionCircles from './isIntersectionCircles';
+import isIntersectionCircles from './isIntesectionCircles';
 
 let priority = 0;
 

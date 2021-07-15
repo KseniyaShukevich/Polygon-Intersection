@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import ReactDom from 'react-dom';
 import canvasClass from './CanvasClass';
 import inPolygon from './inPolygon';
