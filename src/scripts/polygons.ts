@@ -55,16 +55,6 @@ const polygon5: IInitPolygon = {
     ]
 }
 
-const polygon6: IInitPolygon = {
-    coordinates: [
-        new Point(0, 30),
-        new Point(15, 0),
-        new Point(45, 0),
-        new Point(60, 30),
-        new Point(0, 30),
-    ]
-}
-
 const polygon7: IInitPolygon = {
     circleData: new Circle(30, 30, 29, 0, 2 * Math.PI),
     isCircle: true
@@ -75,7 +65,6 @@ const polygons: Array<IInitPolygon> = [
     polygon2,
     polygon4,
     polygon5,
-    polygon6,
     polygon7,
 ]
 
