@@ -24,8 +24,8 @@ function checkCircle(
     polygon: Polygon
     ): boolean {
 
-    const differenceX = mousePoint.x - polygon.position.x;
-    const differenceZ = mousePoint.z - polygon.position.z;
+    const differenceX = mousePoint.x - polygon.circleData.x;
+    const differenceZ = mousePoint.z - polygon.circleData.z;
     const lengthLine = Math.sqrt(differenceX * differenceX + differenceZ * differenceZ);
     if (lengthLine < polygon.circleData.r) {
         return true;
@@ -57,7 +57,7 @@ function checkPolygon(
     mousePoint: Point, 
     polygon: Polygon
     ): boolean {
-        
+
     let countCrossed = calcCountCrossed(mousePoint, polygon);
 
     if (haveSameZ(polygon.coordinates, mousePoint)) {

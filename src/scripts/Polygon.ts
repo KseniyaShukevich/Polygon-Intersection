@@ -11,13 +11,11 @@ export default class Polygon {
     arrIntersections: Array<string | never>;
     isCloned: boolean;
     isCircle: boolean;
-    _position: Point;
 
     constructor(
         coordinates: Array<Point>, 
         isCloned: boolean = false, 
-        circleData: Circle = new Circle(0, 0, 0), 
-        position: Point = new Point(0, 0),
+        circleData: Circle = new Circle(0, 0, 0, 0, 0), 
         isCircle: boolean = false
         ) {
 
@@ -29,25 +27,22 @@ export default class Polygon {
         this.arrIntersections = [];
         this.isCloned = isCloned;
         this.isCircle = isCircle;
-        this._position = position;
     }
 
-    // Здесь считаются координаты полигона в зависимости от позиции(x, z)
-    // Меняем позицию и сразу высчитываются координаты
-    set position(
-        newPosition : Point
-        ) {
-        (!this.isCircle) && (this.coordinates = this.coordinates.map((point) => {
+    calcCoordinates(
+        movementPoint : Point
+    ): void {
+
+        if (this.isCircle) {
+            this.circleData.x += movementPoint.x;
+            this.circleData.z += movementPoint.z;
+        }
+
+        this.coordinates = this.coordinates.map((point) => {
             return new Point(
-                point.x - this._position.x + newPosition.x, 
-                point.z - this._position.z + newPosition.z
+                point.x + movementPoint.x, 
+                point.z + movementPoint.z
                 )
-        }))
-        
-        this._position = newPosition;
-    }
-
-    get position() {
-        return this._position;
+        })
     }
 }

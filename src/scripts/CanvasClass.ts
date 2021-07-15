@@ -3,16 +3,17 @@ import Polygon from './Polygon';
 import Point from './Point';
 import { canvas } from './canvas';
 import Image from './image'
+import Circle from './Circle';
 
 class Canvas {
     polygons: Array<Polygon>;
-    ctx: any;
     images: Array<any>;
+    _ctx: any;
 
     constructor(polygons: Array<Polygon>) {
         this.polygons = polygons;
-        this.ctx = canvas.getContext('2d');
         this.images = [];
+        this._ctx = canvas.getContext('2d');
     }
 
     _sort(): void {
@@ -21,8 +22,8 @@ class Canvas {
         })
     }
 
-    clear(): void {
-        this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+    _clear(): void {
+        this._ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
     _drawLines(
@@ -31,9 +32,9 @@ class Canvas {
 
         for (let i = 0; i < polygon.coordinates.length; i++) {
             if (i == 0) {
-                this.ctx.moveTo(polygon.coordinates[i].x, polygon.coordinates[i].z)
+                this._ctx.moveTo(polygon.coordinates[i].x, polygon.coordinates[i].z)
             } else {
-                this.ctx.lineTo(polygon.coordinates[i].x, polygon.coordinates[i].z)
+                this._ctx.lineTo(polygon.coordinates[i].x, polygon.coordinates[i].z)
             }; 
         }
     }
@@ -42,9 +43,9 @@ class Canvas {
         polygon: Polygon
         ): void {
 
-        this.ctx.arc(
-            polygon.position.x, 
-            polygon.position.z, 
+        this._ctx.arc(
+            polygon.circleData.x, 
+            polygon.circleData.z, 
             polygon.circleData.r, 
             polygon.circleData.startAngle, 
             polygon.circleData.endAngle
@@ -56,8 +57,8 @@ class Canvas {
         ): void {
 
         if (polygon.arrIntersections.length) {
-            this.ctx.fillStyle = 'red';
-            this.ctx.fill(); 
+            this._ctx.fillStyle = 'red';
+            this._ctx.fill(); 
         }
         
     }
@@ -66,7 +67,7 @@ class Canvas {
         polygon: Polygon
         ): void {
 
-        this.ctx.beginPath();
+        this._ctx.beginPath();
 
         if (polygon.isCircle) {
             this._drawCircle(polygon);
@@ -74,14 +75,14 @@ class Canvas {
             this._drawLines(polygon);
         }
         
-        this.ctx.closePath();
+        this._ctx.closePath();
 
         this._fillPolygon(polygon);
-        this.ctx.stroke();
+        this._ctx.stroke();
     }
 
     draw(): void {
-        this.clear();
+        this._clear();
         this._sort();
 
         this.polygons.forEach((polygon) => {
@@ -92,15 +93,11 @@ class Canvas {
     }
 
     move(
-        point: Point, 
+        movementPoint: Point, 
         draggingPolygon: Polygon
         ): void {
 
-        draggingPolygon.position = new Point(
-            draggingPolygon.position.x + point.x, 
-            draggingPolygon.position.z + point.z
-            );
-
+        draggingPolygon.calcCoordinates(movementPoint);
         this.draw();
     }
 
@@ -113,7 +110,20 @@ class Canvas {
             let newPolygon: Polygon;
 
             if (polygon.isCircle) {
-                newPolygon = new Polygon([], true, polygon.circleData, polygon.position, true);
+                const newCircleData: Circle = new Circle(
+                    polygon.circleData.x, 
+                    polygon.circleData.z, 
+                    polygon.circleData.r, 
+                    polygon.circleData.startAngle, 
+                    polygon.circleData.endAngle
+                );
+
+                newPolygon = new Polygon(
+                    [],
+                    true, 
+                    newCircleData, 
+                    true
+                    );
             } else {
                 newPolygon = new Polygon(polygon.coordinates, true);
             }
@@ -129,7 +139,7 @@ class Canvas {
         this.polygons.forEach((polygon) => {
             this._drawPolygon(polygon);
             this.images.push(new Image(polygon.id, canvas.toDataURL()));
-            this.clear();
+            this._clear();
         });
         canvas.height = document.body.clientHeight - 50;
         canvas.width = document.body.clientWidth - 250;

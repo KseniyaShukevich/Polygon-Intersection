@@ -11,12 +11,12 @@ function checkAlongOrdinates(
     ): boolean {
 
     const xCross: number = line.point2.x;
-    const zCross: number = polygon.position.z;
-    const point1: Point = new Point(polygon.position.x, zCross); 
+    const zCross: number = polygon.circleData.z;
+    const point1: Point = new Point(polygon.circleData.x, zCross); 
     const point2: Point = new Point(xCross, zCross);
     const testLine: Line = new Line(point1, point2);
 
-    const lengthToCenter: number = Math.abs(line.point2.x - polygon.position.x);
+    const lengthToCenter: number = Math.abs(line.point2.x - polygon.circleData.x);
     return (isIntersection(line, testLine) &&
             (polygon.circleData.r > lengthToCenter));
 }
@@ -27,9 +27,9 @@ function checkAlongAbscissa(
     lengthToCenter: number
     ): boolean {
 
-    const xCross: number = polygon.position.x;
+    const xCross: number = polygon.circleData.x;
     const zCross: number = line.point1.z;
-    const point1: Point = new Point(xCross, polygon.position.z);
+    const point1: Point = new Point(xCross, polygon.circleData.z);
     const point2: Point = new Point(xCross, zCross);
     const testLine: Line = new Line(point1, point2);
 
@@ -46,10 +46,10 @@ function checkCircleAndLine(
     b1: number
     ): boolean {
 
-    const b2: number = polygon.position.z + (polygon.position.x * k1);
+    const b2: number = polygon.circleData.z + (polygon.circleData.x * k1);
     const xCross: number = (b2 - b1) / (2 * k1);
     const zCross: number = b2 - (k1 * xCross);
-    const point1: Point = new Point(polygon.position.x, polygon.position.z);
+    const point1: Point = new Point(polygon.circleData.x, polygon.circleData.z);
     const point2: Point = new Point(xCross, zCross)
 
     return (isIntersection(line, new Line(point1, point2)) ||
@@ -64,7 +64,7 @@ function checkRestCases(
     ): boolean {
 
     const [k1, b1] = calcCoefficients(line);
-    const dividend = Math.abs(k1 * polygon.position.x - polygon.position.z + b1);
+    const dividend = Math.abs(k1 * polygon.circleData.x - polygon.circleData.z + b1);
     const lengthToCenter: number = dividend / Math.sqrt(k1 * k1 + 1);
 
     if (k1 === 0) {

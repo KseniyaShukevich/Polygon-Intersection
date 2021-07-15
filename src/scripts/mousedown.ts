@@ -29,19 +29,12 @@ function clonePolygon(
     ): void {
 
     const shift = getShiftXZ(e);
+    const positionX: number = e.pageX - shift.x - left;
+    const positionZ: number = e.pageY - shift.z - top;
     let draggingPolygon = canvasClass.clone(id);
 
     draggingPolygon.isDragging = true;
-
-    if (draggingPolygon.isCircle) {
-        const positionX: number = e.pageX - shift.x - left + draggingPolygon.position.x;
-        const positionZ: number = e.pageY - shift.z - top + draggingPolygon.position.z;
-        draggingPolygon.position = new Point(positionX, positionZ);
-    } else {
-        const positionX: number = e.pageX - shift.x - left;
-        const positionZ: number = e.pageY - shift.z - top;
-        draggingPolygon.position = new Point(positionX, positionZ);
-    }
+    draggingPolygon.calcCoordinates(new Point(positionX, positionZ));
 }
 
 function checkPolygon(
