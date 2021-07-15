@@ -10,7 +10,10 @@ class Canvas {
     images: Array<any>;
     _ctx: any;
 
-    constructor(polygons: Array<Polygon>) {
+    constructor(
+        polygons: Array<Polygon>,
+    ) {
+        
         this.polygons = polygons;
         this.images = [];
         this._ctx = canvas.getContext('2d');
@@ -27,8 +30,8 @@ class Canvas {
     }
 
     _drawLines(
-        polygon: Polygon
-        ): void {
+        polygon: Polygon,
+    ): void {
 
         for (let i = 0; i < polygon.coordinates.length; i++) {
             if (i == 0) {
@@ -40,8 +43,8 @@ class Canvas {
     }
 
     _drawCircle(
-        polygon: Polygon
-        ): void {
+        polygon: Polygon,
+    ): void {
 
         this._ctx.arc(
             polygon.circleData.x, 
@@ -53,8 +56,8 @@ class Canvas {
     }
 
     _fillPolygon(
-        polygon: Polygon
-        ): void {
+        polygon: Polygon,
+    ): void {
 
         if (polygon.arrIntersections.length) {
             this._ctx.fillStyle = 'red';
@@ -64,8 +67,8 @@ class Canvas {
     }
 
     _drawPolygon(
-        polygon: Polygon
-        ): void {
+        polygon: Polygon,
+    ): void {
 
         this._ctx.beginPath();
 
@@ -94,15 +97,15 @@ class Canvas {
 
     move(
         movementPoint: Point, 
-        draggingPolygon: Polygon
-        ): void {
+        draggingPolygon: Polygon,
+    ): void {
 
         draggingPolygon.calcCoordinates(movementPoint);
         this.draw();
     }
 
     _cloneCircleData(
-        polygon: Polygon
+        polygon: Polygon,
     ): Circle {
 
         return new Circle(
@@ -115,8 +118,8 @@ class Canvas {
     }
 
     clone(
-        id: string
-        ): Polygon {
+        id: string,
+    ): Polygon {
 
         const polygon = this.polygons.find((elem) => elem.id === id);
         if (polygon) {

@@ -16,10 +16,10 @@ export default class Polygon {
         coordinates: Array<Point>, 
         isCloned: boolean = false, 
         circleData: Circle = new Circle(0, 0, 0, 0, 0), 
-        isCircle: boolean = false
-        ) {
+        isCircle: boolean = false,
+    ) {
 
-        this.id = uuidv4();;
+        this.id = uuidv4();
         this.coordinates = coordinates;
         this.circleData = circleData;
         this.priority = 0;

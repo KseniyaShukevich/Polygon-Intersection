@@ -2,8 +2,8 @@ import Line from './Line';
 import { calcCoefficients } from './services';
 
 function getMaxAndMinXZ(
-  line: Line
-  ): Array<number> {
+  line: Line,
+): Array<number> {
 
   const maxX: number = Math.max(line.point1.x, line.point2.x);
   const minX: number = Math.min(line.point1.x, line.point2.x);
@@ -15,8 +15,8 @@ function getMaxAndMinXZ(
 function checkPoint(
   line: Line, 
   xCross: number, 
-  zCross: number
-  ): boolean {
+  zCross: number,
+): boolean {
 
   const [maxX, minX, maxZ, minZ] = getMaxAndMinXZ(line);
   if ((xCross <= maxX) && (xCross >= minX) &&
@@ -30,8 +30,8 @@ function checkPoint(
 function checkSuperimposition(
   line: Line, 
   z1: number, 
-  z2: number
-  ): boolean {
+  z2: number,
+): boolean {
 
     if (line.point1.z === z1 || line.point1.z === z2 || 
         line.point2.z === z1 || line.point2.z === z2) {
@@ -43,8 +43,8 @@ function checkSuperimposition(
 
 function calcPointCrossAlongOrdinates(
   lineAlongOrdinates: Line, 
-  line: Line
-  ): Array<number> {
+  line: Line,
+): Array<number> {
 
   const xCross: number = lineAlongOrdinates.point1.x;
   const [k, b] = calcCoefficients(line);
@@ -54,8 +54,8 @@ function calcPointCrossAlongOrdinates(
 
 function findMinZs(
   line1: Line, 
-  line2: Line
-  ): Array<number> {
+  line2: Line,
+): Array<number> {
 
   const allZ: Array<number> = [
     line1.point1.z, line1.point2.z, 
@@ -69,8 +69,8 @@ function findMinZs(
 
 function checkLinesAlongOrdinates(
   line1: Line, 
-  line2: Line
-  ): boolean {
+  line2: Line,
+): boolean {
 
   if (line1.point1.x !== line2.point1.x) {
     return false;
@@ -90,8 +90,8 @@ function calcPointCrossLines(
   line2: Line, 
   k1: number, 
   k2: number, 
-  b1: number
-  ): Array<number> {
+  b1: number,
+): Array<number> {
 
   const kDifference: number = k1 - k2;
   const result: number = line2.point1.z - line2.point1.x * k2 - line1.point1.z + line1.point1.x * k1;
@@ -102,8 +102,8 @@ function calcPointCrossLines(
 
 export default function isIntersection(
   line1: Line, 
-  line2: Line
-  ): boolean {
+  line2: Line,
+): boolean {
     
   const xDifference1: number = line1.point2.x - line1.point1.x;
   const xDifference2: number = line2.point2.x - line2.point1.x;

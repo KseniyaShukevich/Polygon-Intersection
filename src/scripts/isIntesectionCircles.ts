@@ -2,8 +2,8 @@ import Polygon from "./Polygon";
 
 export default function isIntersectionCircles(
     polygon1: Polygon, 
-    polygon2: Polygon
-    ): boolean {
+    polygon2: Polygon,
+): boolean {
 
     const differenceX: number = Math.abs(polygon2.circleData.x - polygon1.circleData.x);
     const differenceZ: number = Math.abs(polygon2.circleData.z - polygon1.circleData.z);

@@ -5,7 +5,6 @@ import Circle from './Circle';
 interface IInitPolygon {
     coordinates?: Array<Point>
     circleData?: Circle
-    // position?: Point
     isCircle?: boolean
 }
 
@@ -68,7 +67,6 @@ const polygon6: IInitPolygon = {
 
 const polygon7: IInitPolygon = {
     circleData: new Circle(30, 30, 29, 0, 2 * Math.PI),
-    // position: new Point(30, 30),
     isCircle: true
 }
 

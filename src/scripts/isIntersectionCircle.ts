@@ -7,8 +7,8 @@ import { calcCoefficients } from './services';
 
 function checkAlongOrdinates(
     line: Line, 
-    polygon: Polygon
-    ): boolean {
+    polygon: Polygon,
+): boolean {
 
     const xCross: number = line.point2.x;
     const zCross: number = polygon.circleData.z;
@@ -24,8 +24,8 @@ function checkAlongOrdinates(
 function checkAlongAbscissa(
     line: Line, 
     polygon: Polygon,
-    lengthToCenter: number
-    ): boolean {
+    lengthToCenter: number,
+): boolean {
 
     const xCross: number = polygon.circleData.x;
     const zCross: number = line.point1.z;
@@ -43,8 +43,8 @@ function checkCircleAndLine(
     line: Line, 
     polygon: Polygon,
     k1: number,
-    b1: number
-    ): boolean {
+    b1: number,
+): boolean {
 
     const b2: number = polygon.circleData.z + (polygon.circleData.x * k1);
     const xCross: number = (b2 - b1) / (2 * k1);
@@ -60,11 +60,11 @@ function checkCircleAndLine(
 
 function checkRestCases(
     line: Line, 
-    polygon: Polygon
-    ): boolean {
+    polygon: Polygon,
+): boolean {
 
     const [k1, b1] = calcCoefficients(line);
-    const dividend = Math.abs(k1 * polygon.circleData.x - polygon.circleData.z + b1);
+    const dividend: number = Math.abs(k1 * polygon.circleData.x - polygon.circleData.z + b1);
     const lengthToCenter: number = dividend / Math.sqrt(k1 * k1 + 1);
 
     if (k1 === 0) {
@@ -80,8 +80,8 @@ function checkRestCases(
 
 export default function isIntersectionCircle(
     line: Line, 
-    polygon: Polygon
-    ): boolean {
+    polygon: Polygon,
+): boolean {
 
     if ((line.point2.x - line.point1.x) === 0) {
         return checkAlongOrdinates(line, polygon);

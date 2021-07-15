@@ -10,8 +10,8 @@ let priority = 0;
 
 function crossPolygons(
     draggingPolygon: Polygon, 
-    polygon: Polygon
-    ): void {
+    polygon: Polygon,
+): void {
 
     if (!draggingPolygon.arrIntersections.includes(polygon.id)) {
         draggingPolygon.arrIntersections.push(polygon.id);
@@ -24,8 +24,8 @@ function crossPolygons(
 
 function deleteConnection(
     draggingPolygon: Polygon, 
-    polygon: Polygon
-    ): void {
+    polygon: Polygon,
+): void {
 
     if (draggingPolygon.arrIntersections.includes(polygon.id)) {
         draggingPolygon.arrIntersections.splice(draggingPolygon.arrIntersections.indexOf(polygon.id), 1);
@@ -38,8 +38,8 @@ function managePolygons(
     polygon: Polygon,
     arrIntersections: Array<string | never>,
     callback: any,
-    firstArgument: any
-    ): void {
+    firstArgument: any,
+): void {
 
     if ((draggingPolygon.id !== polygon.id) && !arrIntersections.includes(polygon.id)) {
         let isCrossed: boolean = false;
@@ -57,10 +57,10 @@ function managePolygons(
 function isCrossed(
     polygon: Polygon,
     callback: any,
-    secondArgument: any
-    ): boolean {
+    secondArgument: any,
+): boolean {
 
-    const lines = getLines(polygon);
+    const lines: Array<Line> = getLines(polygon);
     let isCrossed: boolean = false;
    
     lines.forEach((line) => {
@@ -75,8 +75,8 @@ function isCrossed(
 
 function isCrossedLines(
     draggingLine: Line, 
-    polygon: Polygon
-    ): boolean {
+    polygon: Polygon,
+): boolean {
 
     if (polygon.isCircle) {
         return isIntersectionCircle(draggingLine, polygon);
@@ -100,10 +100,10 @@ function isCrossedCircle(
 function mapDraggingCoordinates(
     draggingPolygon: Polygon, 
     polygons: Array<Polygon>,
-    arrIntersections: Array<string | never> 
-    ): void {
+    arrIntersections: Array<string | never>, 
+): void {
 
-    const linesDragging = getLines(draggingPolygon);
+    const linesDragging: Array<Line> = getLines(draggingPolygon);
 
     linesDragging.forEach((line) => {
         polygons.forEach((polygon) => {
@@ -122,8 +122,8 @@ function mapDraggingCoordinates(
 function mapPolygons(
     draggingPolygon: Polygon, 
     polygons: Array<Polygon>,
-    arrIntersections: Array<string | never> 
-    ): void {
+    arrIntersections: Array<string | never>,
+): void {
 
     polygons.forEach((polygon) => {
         if (polygon.isCloned) {
@@ -138,7 +138,7 @@ function mapPolygons(
 }
 
 export default function mouseup(): void {
-    const draggingPolygon = canvasClass.polygons.find((polygon) => polygon.isDragging);
+    const draggingPolygon: Polygon = canvasClass.polygons.find((polygon) => polygon.isDragging);
 
     if (draggingPolygon) {
         const arrIntersections: Array<string | never> = [];

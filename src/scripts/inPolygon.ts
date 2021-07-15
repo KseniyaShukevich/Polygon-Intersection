@@ -6,10 +6,10 @@ import { getLines } from './services';
 
 function haveSameZ(
     coordinates: Array<Point>, 
-    mousePoint: Point
-    ): boolean {
+    mousePoint: Point,
+): boolean {
 
-    let isSame = false;
+    let isSame: boolean = false;
     coordinates.forEach((point) => {
         if (point.z === mousePoint.z) {
             isSame = true;
@@ -21,12 +21,12 @@ function haveSameZ(
 
 function checkCircle(
     mousePoint: Point, 
-    polygon: Polygon
-    ): boolean {
+    polygon: Polygon,
+): boolean {
 
-    const differenceX = mousePoint.x - polygon.circleData.x;
-    const differenceZ = mousePoint.z - polygon.circleData.z;
-    const lengthLine = Math.sqrt(differenceX * differenceX + differenceZ * differenceZ);
+    const differenceX: number = mousePoint.x - polygon.circleData.x;
+    const differenceZ: number = mousePoint.z - polygon.circleData.z;
+    const lengthLine: number = Math.sqrt(differenceX * differenceX + differenceZ * differenceZ);
     if (lengthLine < polygon.circleData.r) {
         return true;
     }
@@ -35,11 +35,11 @@ function checkCircle(
 
 function calcCountCrossed(
     mousePoint: Point,
-    polygon: Polygon
-    ): number {
+    polygon: Polygon,
+): number {
     
     const xCoordinates: Array<number> = polygon.coordinates.map((point) => point.x);
-    const lines = getLines(polygon);
+    const lines: Array<Line> = getLines(polygon);
     const maxX: number = Math.max(...xCoordinates);
     let countCrossed: number = 0;
 
@@ -55,10 +55,10 @@ function calcCountCrossed(
 
 function checkPolygon(
     mousePoint: Point, 
-    polygon: Polygon
-    ): boolean {
+    polygon: Polygon,
+): boolean {
 
-    let countCrossed = calcCountCrossed(mousePoint, polygon);
+    const countCrossed: number = calcCountCrossed(mousePoint, polygon);
 
     if (haveSameZ(polygon.coordinates, mousePoint)) {
         return ((countCrossed % 4 !== 0));
@@ -69,8 +69,8 @@ function checkPolygon(
  
 export default function inPolygon(
     mousePoint: Point, 
-    polygon: Polygon
-    ): boolean {
+    polygon: Polygon,
+): boolean {
 
     if (polygon.isCircle) {
         return checkCircle(mousePoint, polygon);
