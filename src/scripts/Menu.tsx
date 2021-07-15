@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import ReactDom from 'react-dom';
 import canvasClass from './CanvasClass';
 import inPolygon from './inPolygon';
@@ -13,8 +13,8 @@ const Menu: React.FC = () => {
     const moveAt = (
         e: any, 
         shiftX: number, 
-        shiftZ: number
-        ): void => {
+        shiftZ: number,
+    ): void => {
 
         draggingImage.current.style.left = e.pageX - shiftX + 'px';
         draggingImage.current.style.top = e.pageY - shiftZ + 'px';
@@ -22,8 +22,8 @@ const Menu: React.FC = () => {
 
     const mousedown = (
         e: React.MouseEvent<HTMLImageElement>, 
-        image: Image
-        ) => {
+        image: Image,
+    ): void => {
 
         const shift = getShiftXZ(e);
         const polygon = canvasClass.polygons.find((elem) => elem.id === image.id);

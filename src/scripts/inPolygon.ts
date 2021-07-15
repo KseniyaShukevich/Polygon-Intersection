@@ -4,37 +4,64 @@ import Line from './Line';
 import Polygon from './Polygon';
 import { getLines } from './services';
 
-function haveSameZ(coordinates: Array<Point>, mousePoint: Point) {
-    let isSame = false;
-    coordinates.forEach((point) => {
-        if (point.z === mousePoint.z) {
-            isSame = true;
-        }
-    });
+function checkCircle(
+    mousePoint: Point, 
+    polygon: Polygon,
+): boolean {
 
-    return isSame;
+    const differenceX: number = mousePoint.x - polygon.circleData.x;
+    const differenceZ: number = mousePoint.z - polygon.circleData.z;
+    const lengthLine: number = Math.sqrt(differenceX * differenceX + differenceZ * differenceZ);
+
+    return lengthLine < polygon.circleData.r;
+}
+
+function calcCountCrossed(
+    mousePoint: Point,
+    polygon: Polygon,
+): number {
+    
+    const xCoordinates: Array<number> = polygon.coordinates.map((point) => point.x);
+    const lines: Array<Line> = getLines(polygon);
+    const maxX: number = Math.max(...xCoordinates);
+
+    return  lines.reduce((count, line) => {
+                const testLine: Line = new Line(mousePoint, new Point(maxX + 1, mousePoint.z));
+
+                if (isIntersection(line, testLine)) {
+                        return count += 1;
+                    }
+                
+                return count;
+            }, 0);
+
+}
+
+function checkPolygon(
+    mousePoint: Point, 
+    polygon: Polygon,
+): boolean {
+
+    const countCrossed: number = calcCountCrossed(mousePoint, polygon);
+
+    if (polygon.coordinates.some((point) => point.z === mousePoint.z)) {
+
+        return countCrossed % 4 !== 0;
+    }
+
+    return countCrossed % 2 !== 0;
 }
  
 export default function inPolygon(
     mousePoint: Point, 
-    polygon: Polygon
-    ): boolean {
-        
-    const xCoordinates: Array<number> = polygon.coordinates.map((point) => point.x);
-    const maxX: number = Math.max(...xCoordinates);
-    let countCrossed: number = 0;
+    polygon: Polygon,
+): boolean {
 
-    const lines = getLines(polygon);
-    lines.forEach((line) => {
-        const testLine: Line = new Line(mousePoint, new Point(maxX + 1, mousePoint.z));
-        if (isIntersection(line, testLine)) {
-                countCrossed += 1;
-            }
-    })
+    if (polygon.isCircle) {
 
-    if (haveSameZ(polygon.coordinates, mousePoint)) {
-        return ((countCrossed % 4 !== 0));
+        return checkCircle(mousePoint, polygon);
+    } else {
+
+        return checkPolygon(mousePoint, polygon);
     }
-
-    return ((countCrossed % 2 !== 0));
 }
